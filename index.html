@@ -1,0 +1,5534 @@
+<!DOCTYPE html>
+m<htl lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+
+<base target="_top">
+
+<title>Gestão Escolar</title>
+
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b18;
+  --bg2:#0b1124;
+  --panel:rgba(15,23,42,.78);
+  --panel-solid:#0f172a;
+  --line:rgba(148,163,184,.16);
+  --text:#e8eefc;
+  --muted:#94a3b8;
+  --blue:#38bdf8;
+  --blue2:#2563eb;
+  --violet:#8b5cf6;
+  --green:#22c55e;
+  --red:#ef4444;
+  --yellow:#f59e0b;
+  --shadow:0 18px 60px rgba(0,0,0,.30);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(37,99,235,.16),transparent 28%),
+    radial-gradient(circle at 85% 20%,rgba(139,92,246,.13),transparent 28%),
+    linear-gradient(135deg,#050816,#0a1022 55%,#070b18);
+  color:var(--text);min-height:100vh
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.25;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:40px 40px;z-index:-1
+}
+.hidden{display:none!important}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+
+/* LOGIN */
+.login-page{
+  min-height:100vh;display:flex;justify-content:center;align-items:center;padding:25px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(56,189,248,.16),transparent 35%),
+    radial-gradient(circle at 10% 90%,rgba(139,92,246,.16),transparent 30%),
+    #050816;position:relative;overflow:hidden
+}
+.login-page:before,.login-page:after{
+  content:"";position:absolute;border-radius:50%;filter:blur(2px);pointer-events:none
+}
+.login-page:before{width:420px;height:420px;background:rgba(37,99,235,.08);top:-180px;right:-120px}
+.login-page:after{width:360px;height:360px;background:rgba(139,92,246,.07);bottom:-180px;left:-100px}
+.login-card{
+  width:100%;max-width:450px;padding:38px;border:1px solid rgba(148,163,184,.18);
+  border-radius:28px;background:rgba(15,23,42,.72);backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);box-shadow:0 35px 100px rgba(0,0,0,.5);
+  position:relative;z-index:1
+}
+.logo{
+  width:78px;height:78px;margin:0 auto 20px;display:flex;justify-content:center;align-items:center;
+  border-radius:24px;background:linear-gradient(135deg,var(--blue2),var(--violet));
+  color:#fff;font-size:35px;box-shadow:0 0 35px rgba(56,189,248,.28),inset 0 1px rgba(255,255,255,.25)
+}
+h1{font-size:28px;text-align:center;margin-bottom:8px;letter-spacing:-.5px}
+.subtitle{text-align:center;color:var(--muted);margin-bottom:26px}
+.type-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.type-buttons button{
+  padding:13px;border:1px solid var(--line);background:rgba(255,255,255,.035);
+  color:#cbd5e1;border-radius:13px;font-weight:700;transition:.25s
+}
+.type-buttons button:hover{border-color:rgba(56,189,248,.45);transform:translateY(-1px)}
+.type-buttons button.active{
+  background:linear-gradient(135deg,rgba(37,99,235,.28),rgba(139,92,246,.2));
+  color:#7dd3fc;border-color:rgba(56,189,248,.65);box-shadow:0 0 22px rgba(37,99,235,.12)
+}
+label{display:block;margin:14px 0 7px;font-size:13px;font-weight:700;color:#cbd5e1}
+input,select,textarea{
+  width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;outline:none;
+  font-size:14px;background:rgba(2,6,23,.55);color:var(--text);transition:.25s
+}
+select option{background:#0f172a;color:#fff}
+textarea{min-height:110px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#64748b}
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(56,189,248,.75);box-shadow:0 0 0 3px rgba(56,189,248,.10),0 0 22px rgba(56,189,248,.06)
+}
+.btn{
+  border:none;padding:12px 16px;border-radius:12px;font-weight:800;color:#fff;
+  transition:.25s;box-shadow:0 8px 22px rgba(0,0,0,.18)
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.btn-primary{background:linear-gradient(135deg,#2563eb,#7c3aed)}
+.btn-green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.btn-red{background:linear-gradient(135deg,#dc2626,#f43f5e)}
+.btn-gray{background:linear-gradient(135deg,#334155,#475569)}
+.btn-warning{background:linear-gradient(135deg,#d97706,#f59e0b)}
+.full{width:100%;margin-top:15px}
+.link-button{
+  width:100%;border:none;background:transparent;color:#60a5fa;padding:12px;font-weight:700;transition:.2s
+}
+.link-button:hover{color:#a78bfa}
+.message{margin-top:12px;padding:12px;border-radius:11px;display:none;font-size:13px;border:1px solid transparent}
+.message.show{display:block}
+.message.error{background:rgba(239,68,68,.10);color:#fca5a5;border-color:rgba(239,68,68,.25)}
+.message.success{background:rgba(34,197,94,.10);color:#86efac;border-color:rgba(34,197,94,.25)}
+
+/* APP */
+#app{display:none}
+.layout{min-height:100vh;display:flex}
+.sidebar{
+  width:270px;position:fixed;top:0;left:0;bottom:0;
+  background:linear-gradient(180deg,rgba(7,11,24,.96),rgba(10,16,34,.94));
+  color:#fff;padding:20px 16px;z-index:30;overflow-y:auto;
+  border-right:1px solid rgba(148,163,184,.12);box-shadow:18px 0 55px rgba(0,0,0,.18)
+}
+.sidebar::-webkit-scrollbar{width:5px}.sidebar::-webkit-scrollbar-thumb{background:#334155;border-radius:20px}
+.brand{display:flex;align-items:center;gap:11px;padding:6px 8px 22px;border-bottom:1px solid var(--line)}
+.brand-icon{
+  width:45px;height:45px;display:flex;justify-content:center;align-items:center;border-radius:14px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 0 25px rgba(37,99,235,.25)
+}
+.brand-text{font-weight:800;letter-spacing:.2px}
+.brand-small{display:block;color:#64748b;font-size:10px;margin-top:4px}
+.section-title{color:#64748b;font-size:10px;font-weight:800;margin:24px 9px 9px;text-transform:uppercase;letter-spacing:1.4px}
+.nav{
+  width:100%;padding:12px 13px;margin-bottom:6px;background:transparent;color:#94a3b8;border:1px solid transparent;
+  border-radius:12px;text-align:left;font-weight:700;transition:.25s;position:relative
+}
+.nav:hover{background:rgba(56,189,248,.07);color:#e0f2fe;border-color:rgba(56,189,248,.10);transform:translateX(2px)}
+.nav.active{
+  background:linear-gradient(135deg,rgba(37,99,235,.72),rgba(124,58,237,.62));
+  color:#fff;border-color:rgba(125,211,252,.25);box-shadow:0 8px 25px rgba(37,99,235,.20)
+}
+.main{margin-left:270px;width:calc(100% - 270px)}
+.top{
+  height:76px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;
+  background:rgba(7,11,24,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20
+}
+#pageTitle{font-size:18px;letter-spacing:.2px}
+.user{display:flex;align-items:center;gap:11px}
+.avatar{
+  width:42px;height:42px;border-radius:14px;display:flex;justify-content:center;align-items:center;
+  background:linear-gradient(135deg,#2563eb,#8b5cf6);color:#fff;font-weight:800;
+  box-shadow:0 0 20px rgba(37,99,235,.22)
+}
+.user-name{font-weight:800}.user-type{display:block;font-size:11px;color:#64748b;margin-top:2px}
+.content{padding:28px;max-width:1500px;margin:auto}
+.screen{display:none}.screen.active{display:block;animation:screenIn .3s ease}
+@keyframes screenIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{
+  padding:32px;border-radius:22px;color:#fff;margin-bottom:22px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 85% 15%,rgba(255,255,255,.15),transparent 24%),
+    linear-gradient(135deg,#1d4ed8,#4338ca 55%,#7c3aed);
+  border:1px solid rgba(255,255,255,.13);box-shadow:0 20px 55px rgba(37,99,235,.20)
+}
+.hero:after{content:"✦";position:absolute;right:35px;bottom:-22px;font-size:120px;opacity:.08}
+.hero h2{text-align:left;margin-bottom:8px;font-size:26px}.hero p{color:#dbeafe}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:22px}
+.stat{
+  padding:21px;border-radius:18px;background:rgba(15,23,42,.72);border:1px solid var(--line);
+  box-shadow:var(--shadow);position:relative;overflow:hidden;transition:.25s
+}
+.stat:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(56,189,248,.06),transparent 55%);pointer-events:none}
+.stat:hover{transform:translateY(-4px);border-color:rgba(56,189,248,.24)}
+
+.dashboard-events{
+  margin-top:22px;
+}
+.dashboard-event-card{
+  border:1px solid rgba(56,189,248,.18);
+  border-radius:16px;
+  padding:18px;
+  background:linear-gradient(135deg,rgba(15,23,42,.82),rgba(30,41,59,.58));
+  cursor:pointer;
+  transition:.25s;
+}
+.dashboard-event-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(56,189,248,.42);
+  box-shadow:0 12px 30px rgba(37,99,235,.16);
+}
+.dashboard-event-card h3{margin:0 0 9px;color:#f8fafc;font-size:17px}
+.dashboard-event-card p{margin:5px 0;color:#cbd5e1;font-size:13px}
+.dashboard-event-badge{
+  display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;
+  margin-bottom:10px;background:rgba(37,99,235,.18);color:#bfdbfe;border:1px solid rgba(96,165,250,.18)
+}
+.dashboard-empty{padding:24px;border:1px dashed rgba(148,163,184,.22);border-radius:15px;text-align:center;color:#94a3b8}
+.stat-icon{font-size:27px}.stat-number{font-size:28px;font-weight:900;margin-top:10px}.stat-label{color:#64748b;font-size:12px;margin-top:3px}
+.card{
+  background:rgba(15,23,42,.70);border:1px solid var(--line);padding:23px;border-radius:18px;margin-bottom:21px;
+  box-shadow:var(--shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)
+}
+.card-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px}
+.card-header h2{color:#f8fafc;text-align:left;font-size:19px}.card-header p{color:#64748b!important}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.item{
+  border:1px solid var(--line);border-radius:16px;padding:19px;background:rgba(15,23,42,.60);
+  transition:.25s;position:relative
+}
+.item:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.22);box-shadow:0 15px 35px rgba(0,0,0,.20)}
+.item h3{color:#7dd3fc;margin-bottom:11px}.item p{color:#94a3b8;font-size:13px;margin:7px 0}
+.item strong{color:#cbd5e1}
+.subject{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(15,23,42,.60);transition:.25s}
+.subject:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.25);box-shadow:0 16px 35px rgba(0,0,0,.2)}
+.subject-head{padding:19px;background:linear-gradient(135deg,rgba(37,99,235,.20),rgba(124,58,237,.16))}
+.subject-head h3{color:#7dd3fc;margin-bottom:6px}.subject-meta{color:#94a3b8;font-size:11px;line-height:1.7}
+.subject-body{padding:19px}.subject-content{background:rgba(2,6,23,.42);padding:14px;border-radius:11px;white-space:pre-line;line-height:1.6;color:#cbd5e1}
+.links{border-top:1px solid var(--line);margin-top:15px;padding-top:15px}
+.study-link{display:block;padding:10px 12px;margin-top:7px;border-radius:10px;text-decoration:none;background:rgba(37,99,235,.10);border:1px solid rgba(56,189,248,.10);color:#7dd3fc;word-break:break-all;font-size:12px;transition:.2s}
+.study-link:hover{background:rgba(37,99,235,.18);border-color:rgba(56,189,248,.3)}
+.note{display:inline-block;margin-top:8px;padding:7px 11px;border-radius:20px;background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.18);color:#86efac;font-weight:800;font-size:12px}
+.empty{grid-column:1/-1;text-align:center;padding:45px;color:#64748b;border:1px dashed var(--line);border-radius:16px;background:rgba(15,23,42,.3)}
+
+/* MÉDIAS / NOTAS */
+.media-toolbar{display:grid;grid-template-columns:minmax(220px,320px) 1fr;gap:15px;align-items:end}
+.media-table-wrap{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+.media-table{width:100%;min-width:700px;border-collapse:collapse;background:rgba(2,6,23,.25)}
+.media-table th{background:rgba(37,99,235,.16);color:#7dd3fc;text-align:left;padding:14px;font-size:12px;border-bottom:1px solid var(--line)}
+.media-table td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;color:#cbd5e1}
+.media-table tr:last-child td{border-bottom:none}.media-table tr:hover td{background:rgba(56,189,248,.025)}
+.media-table input{max-width:130px;padding:9px 10px}.media-table .media-name{font-weight:800;color:#e2e8f0}
+.media-readonly{font-weight:800;font-size:17px;color:#86efac}
+.media-status{padding:6px 10px;border-radius:20px;background:rgba(148,163,184,.10);border:1px solid var(--line);color:#94a3b8;font-size:11px;display:inline-block}
+.media-status.lancada{background:rgba(34,197,94,.10);color:#86efac;border-color:rgba(34,197,94,.2)}
+.media-status.pendente{background:rgba(245,158,11,.10);color:#fcd34d;border-color:rgba(245,158,11,.2)}
+.media-info{background:rgba(56,189,248,.05);border:1px solid rgba(56,189,248,.12);padding:14px;border-radius:11px;color:#94a3b8;font-size:12px;margin-bottom:15px}
+.media-acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.media-loading{text-align:center;padding:30px;color:#64748b}
+.media-aluno-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(15,23,42,.60);transition:.25s}
+.media-aluno-card:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.25)}
+.media-aluno-card-head{padding:18px;background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(124,58,237,.12))}
+.media-aluno-card-head h3{color:#7dd3fc;margin-bottom:5px}.media-aluno-card-body{padding:17px;color:#cbd5e1}
+.media-valor-grande{font-size:32px;font-weight:900;color:#4ade80;margin-top:8px;text-shadow:0 0 20px rgba(34,197,94,.16)}
+
+/* DÚVIDAS */
+.duvida{border:1px solid var(--line);border-radius:16px;padding:19px;background:rgba(15,23,42,.60)}
+.duvida-nao-lida{border-left:4px solid #38bdf8;background:rgba(37,99,235,.07)}
+.duvida-lida{border-left:4px solid #22c55e}
+.duvida h3{color:#7dd3fc}.duvida p{color:#94a3b8;margin-top:7px;font-size:13px}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800;margin-top:8px}
+.status-nao{background:rgba(56,189,248,.10);color:#7dd3fc}.status-sim{background:rgba(34,197,94,.10);color:#86efac}
+.duvida-mensagem{background:rgba(2,6,23,.35);padding:14px;border-radius:10px;margin-top:12px;white-space:pre-line;color:#cbd5e1}
+.resposta{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.18);padding:14px;border-radius:10px;margin-top:12px;white-space:pre-line;color:#cbd5e1}
+.filtro-duvidas{display:flex;gap:8px;flex-wrap:wrap}
+.filtro-duvidas button{border:1px solid var(--line);background:rgba(255,255,255,.03);color:#94a3b8;padding:9px 12px;border-radius:9px;font-weight:700;transition:.2s}
+.filtro-duvidas button:hover{border-color:rgba(56,189,248,.25);color:#e0f2fe}
+.filtro-duvidas button.active{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border-color:transparent}
+
+/* MOBILE */
+#menuMobile{
+  display:none;border:1px solid var(--line);background:rgba(15,23,42,.8);color:#e2e8f0;
+  padding:8px 12px;border-radius:10px
+}
+#mobileOverlay{display:none}
+@media(max-width:850px){
+  .sidebar{transform:translateX(-100%);transition:.3s;box-shadow:20px 0 70px rgba(0,0,0,.5)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;width:100%}
+  #menuMobile{display:block}
+  .media-toolbar{grid-template-columns:1fr}
+  .content{padding:20px}
+}
+@media(max-width:600px){
+  .content{padding:14px}.top{padding:0 14px;height:68px}
+  #pageTitle{font-size:15px}.user-type{display:none}
+  .login-card{padding:27px 21px;border-radius:23px}
+  .hero{padding:24px}.hero h2{font-size:22px}
+  .card{padding:17px}.stats{grid-template-columns:1fr 1fr;gap:10px}.stat{padding:16px}
+  .stat-number{font-size:23px}.grid{grid-template-columns:1fr}
+}
+@media(max-width:390px){
+  .stats{grid-template-columns:1fr}.login-page{padding:12px}
+}
+
+
+/* ==========================================================
+CALENDÁRIO
+========================================================== */
+.calendar-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+.calendar-title{
+  font-size:20px;
+  font-weight:900;
+}
+.calendar-actions{
+  display:flex;
+  gap:8px;
+}
+.calendar-weekdays,
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:7px;
+}
+.calendar-weekdays div{
+  text-align:center;
+  color:#64748b;
+  font-size:11px;
+  font-weight:800;
+  padding:8px 2px;
+}
+.calendar-day{
+  min-height:125px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(2,6,23,.28);
+  padding:8px;
+  overflow:hidden;
+}
+.calendar-day.other-month{opacity:.35}
+.calendar-day.today{
+  border-color:rgba(56,189,248,.7);
+  box-shadow:inset 0 0 0 1px rgba(56,189,248,.18);
+}
+.calendar-number{
+  font-size:12px;
+  font-weight:900;
+  color:#cbd5e1;
+  margin-bottom:6px;
+}
+.calendar-event{
+  display:block;
+  width:100%;
+  border:1px solid rgba(56,189,248,.16);
+  background:rgba(37,99,235,.12);
+  color:#dbeafe;
+  border-radius:8px;
+  padding:6px;
+  margin-top:5px;
+  text-align:left;
+  font-size:10px;
+  line-height:1.35;
+  cursor:pointer;
+}
+.calendar-event:hover{
+  background:rgba(37,99,235,.22);
+}
+.calendar-event.aula{border-left:3px solid #38bdf8}
+.calendar-event.prova{border-left:3px solid #f59e0b}
+.calendar-event.trabalho{border-left:3px solid #22c55e}
+.calendar-event small{
+  display:block;
+  color:#94a3b8;
+  margin-top:2px;
+}
+.calendar-form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.calendar-form-grid .full-field{grid-column:1/-1}
+.calendar-legend{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  color:#94a3b8;
+  font-size:11px;
+  margin-bottom:15px;
+}
+.calendar-legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.calendar-dot{
+  width:8px;height:8px;border-radius:50%;display:inline-block;
+}
+.calendar-dot.aula{background:#38bdf8}
+.calendar-dot.prova{background:#f59e0b}
+.calendar-dot.trabalho{background:#22c55e}
+.calendar-edit-actions{
+  display:flex;
+  gap:7px;
+  margin-top:6px;
+}
+@media(max-width:850px){
+  .calendar-day{min-height:100px;padding:6px}
+  .calendar-event{font-size:9px;padding:5px}
+}
+@media(max-width:600px){
+  .calendar-weekdays,.calendar-grid{gap:3px}
+  .calendar-day{min-height:82px;border-radius:8px;padding:4px}
+  .calendar-number{font-size:10px}
+  .calendar-event{font-size:8px;padding:4px;margin-top:3px}
+  .calendar-event small{display:none}
+  .calendar-form-grid{grid-template-columns:1fr}
+  .calendar-form-grid .full-field{grid-column:auto}
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- ==========================================================
+LOGIN
+========================================================== -->
+
+<div id="loginPage" class="login-page">
+
+<div class="login-card">
+
+<div class="logo">🏫</div>
+
+<h1>Gestão Escolar</h1>
+
+<p class="subtitle">
+Acesse sua conta
+</p>
+
+<div class="type-buttons">
+
+<button id="loginAluno" class="active">
+👨‍🎓 Aluno
+</button>
+
+<button id="loginProfessor">
+👨‍🏫 Professor
+</button>
+
+</div>
+
+<button
+id="esqueciSenhaBtn"
+class="link-button">
+🔑 Esqueci minha senha
+</button>
+
+<label>Usuário</label>
+
+<input
+id="loginUsuario"
+placeholder="Digite seu usuário">
+
+<label>Senha</label>
+
+<input
+id="loginSenha"
+type="password"
+placeholder="Digite sua senha">
+
+<button
+id="entrarBtn"
+class="btn btn-primary full">
+🔐 Entrar
+</button>
+
+<button
+id="cadastroBtn"
+class="link-button">
+📝 Criar uma conta
+</button>
+
+<div id="loginMsg" class="message"></div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================================
+CADASTRO
+========================================================== -->
+
+<div id="registerPage"
+class="login-page hidden">
+
+<div class="login-card">
+
+<div class="logo">📝</div>
+
+<h1>Criar conta</h1>
+
+<p class="subtitle">
+Escolha o tipo de usuário
+</p>
+
+<div class="type-buttons">
+
+<button id="cadAluno" class="active">
+👨‍🎓 Aluno
+</button>
+
+<button id="cadProfessor">
+👨‍🏫 Professor
+</button>
+
+</div>
+
+<label>RA / ID</label>
+
+<input
+id="cadRA"
+placeholder="RA do aluno ou ID do professor">
+
+<label>Nome completo</label>
+
+<input
+id="cadNome"
+placeholder="Digite seu nome">
+
+<label>Usuário</label>
+
+<input
+id="cadUsuario"
+placeholder="Escolha seu usuário">
+
+<label>Senha</label>
+
+<input
+id="cadSenha"
+type="password"
+placeholder="Mínimo 6 caracteres">
+
+<label>Série / Ano</label>
+
+<select id="cadSerie">
+
+<option value="">
+Selecione
+</option>
+
+<option>6º Ano</option>
+<option>7º Ano</option>
+<option>8º Ano</option>
+<option>9º Ano</option>
+<option>1ª Série</option>
+<option>2ª Série</option>
+<option>3ª Série</option>
+
+</select>
+
+<div id="cadTurmaBox">
+
+<label>Turma</label>
+
+<input
+id="cadTurma"
+placeholder="Ex: A">
+
+</div>
+
+<div id="cadMateriaBox"
+class="hidden">
+
+<label>Matéria</label>
+
+<input
+id="cadMateria"
+placeholder="Ex: Matemática">
+
+</div>
+
+<button
+id="salvarCadastro"
+class="btn btn-green full">
+✅ Criar conta
+</button>
+
+<button
+id="voltarLogin"
+class="btn btn-gray full">
+← Voltar
+</button>
+
+<div id="cadMsg" class="message"></div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================================
+RECUPERAÇÃO DE SENHA
+========================================================== -->
+
+<div
+id="forgotPasswordPage"
+class="login-page hidden">
+
+<div class="login-card">
+
+<div class="logo">🔑</div>
+
+<h1>Recuperar senha</h1>
+
+<p class="subtitle">
+Crie uma nova senha para sua conta
+</p>
+
+<div class="type-buttons">
+
+<button
+id="forgotAluno"
+class="active">
+👨‍🎓 Aluno
+</button>
+
+<button
+id="forgotProfessor">
+👨‍🏫 Professor
+</button>
+
+</div>
+
+<label>RA / ID</label>
+
+<input
+id="forgotRA"
+placeholder="Digite seu RA ou ID">
+
+<label>Usuário</label>
+
+<input
+id="forgotUsuario"
+placeholder="Digite seu usuário">
+
+<label>Nova senha</label>
+
+<input
+id="forgotNovaSenha"
+type="password"
+placeholder="Mínimo 6 caracteres">
+
+<label>Confirmar nova senha</label>
+
+<input
+id="forgotConfirmarSenha"
+type="password"
+placeholder="Digite a senha novamente">
+
+<button
+id="alterarSenhaBtn"
+class="btn btn-primary full">
+🔐 Alterar senha
+</button>
+
+<button
+id="voltarLoginSenha"
+class="btn btn-gray full">
+← Voltar para o login
+</button>
+
+<div
+id="forgotMsg"
+class="message">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ==========================================================
+APP
+========================================================== -->
+
+<div id="app">
+
+<div id="mobileOverlay"></div>
+
+<div class="layout">
+
+<aside id="sidebar" class="sidebar">
+
+<div class="brand">
+
+<div class="brand-icon">🏫</div>
+
+<div>
+
+<div class="brand-text">
+Gestão Escolar
+</div>
+
+<span class="brand-small">
+Sistema acadêmico
+</span>
+
+</div>
+
+</div>
+
+<div class="section-title">
+Principal
+</div>
+
+<button
+class="nav active"
+data-screen="dashboard">
+🏠 Dashboard
+</button>
+
+<button
+class="nav"
+data-screen="materias">
+📚 Matérias
+</button>
+
+<button
+class="nav"
+data-screen="calendario">
+📅 Calendário
+</button>
+
+<div class="section-title">
+Acadêmico
+</div>
+
+<button
+class="nav"
+data-screen="provas">
+📝 Provas e Notas
+</button>
+
+<button
+class="nav"
+data-screen="trabalhos">
+📂 Trabalhos
+</button>
+
+<!-- NOVO -->
+<button
+id="lancarNotasNav"
+class="nav"
+data-screen="lancarNotas"
+style="display:none;">
+📊 Lançar Notas
+</button>
+
+<!-- NOVO -->
+<button
+id="minhasNotasNav"
+class="nav"
+data-screen="minhasNotas"
+style="display:none;">
+📊 Minhas Notas
+</button>
+
+<button
+id="duvidasNav"
+class="nav"
+data-screen="duvidas">
+❓ Dúvidas
+</button>
+
+<button
+id="alunosNav"
+class="nav"
+data-screen="alunos">
+👨‍🎓 Alunos
+</button>
+
+<div class="section-title">
+Conta
+</div>
+
+<button id="logoutBtn" class="nav">
+🚪 Sair
+</button>
+
+</aside>
+
+
+<main class="main">
+
+<div class="top">
+
+<button id="menuMobile">
+☰
+</button>
+
+<strong id="pageTitle">
+Dashboard
+</strong>
+
+<div class="user">
+
+<div id="avatar" class="avatar">
+U
+</div>
+
+<div>
+
+<div id="userName"
+class="user-name">
+Usuário
+</div>
+
+<span id="userType"
+class="user-type">
+Conta
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="content">
+
+
+<!-- ==========================================================
+DASHBOARD
+========================================================== -->
+
+<section
+id="screenDashboard"
+class="screen active">
+
+<div class="hero">
+
+<h2 id="hello">
+Olá!
+</h2>
+
+<p id="heroText">
+Bem-vindo ao sistema.
+</p>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-icon">
+📚
+</div>
+
+<div
+id="materiaCount"
+class="stat-number">
+0
+</div>
+
+<div class="stat-label">
+Matérias
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+📝
+</div>
+
+<div
+id="provaCount"
+class="stat-number">
+0
+</div>
+
+<div class="stat-label">
+Provas
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-icon">
+📂
+</div>
+
+<div
+id="trabalhoCount"
+class="stat-number">
+0
+</div>
+
+<div class="stat-label">
+Trabalhos
+</div>
+
+</div>
+
+<div
+id="alunoStat"
+class="stat">
+
+<div class="stat-icon">
+👨‍🎓
+</div>
+
+<div
+id="alunoCount"
+class="stat-number">
+0
+</div>
+
+<div class="stat-label">
+Alunos
+</div>
+
+</div>
+
+</div>
+
+<div id="dashboardEventos" class="card dashboard-events">
+  <div class="card-header">
+    <div>
+      <h2>📅 Eventos de hoje</h2>
+      <p id="dashboardEventosData">Verificando o calendário...</p>
+    </div>
+    <button id="dashboardCalendarioBtn" class="btn btn-gray">📅 Calendário</button>
+  </div>
+  <div id="dashboardEventosLista" class="grid"></div>
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+MATÉRIAS
+========================================================== -->
+
+<section
+id="screenMaterias"
+class="screen">
+
+<div
+id="materiaForm"
+class="card">
+
+<h2>📚 Nova matéria</h2>
+
+<label>Nome da matéria</label>
+
+<input
+id="materiaNome"
+placeholder="Ex: Matemática">
+
+<label>Conteúdo</label>
+
+<textarea
+id="materiaConteudo"
+placeholder="Conteúdo da aula">
+</textarea>
+
+<label>Links de estudo</label>
+
+<textarea
+id="materiaLinks"
+placeholder="Um link por linha">
+</textarea>
+
+<button
+id="materiaSalvar"
+class="btn btn-primary">
+💾 Publicar matéria
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>📚 Matérias</h2>
+
+<button
+id="materiaAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div
+id="materiasGrid"
+class="grid">
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ==========================================================
+CALENDÁRIO ESCOLAR
+========================================================== -->
+
+<section
+id="screenCalendario"
+class="screen">
+
+<div
+id="calendarioForm"
+class="card">
+
+<div class="card-header">
+<div>
+<h2>📅 Agendar no calendário</h2>
+<p style="color:#64748b;margin-top:5px;">
+Cadastre aulas, provas e trabalhos para sua turma.
+</p>
+</div>
+</div>
+
+<div class="calendar-form-grid">
+
+<div>
+<label>Tipo</label>
+<select id="calTipo">
+<option value="AULA">📚 Aula</option>
+<option value="PROVA">📝 Prova</option>
+<option value="TRABALHO">📂 Trabalho</option>
+</select>
+</div>
+
+<div>
+<label>Data</label>
+<input id="calData" type="date">
+</div>
+
+<div>
+<label>Título</label>
+<input id="calTitulo" placeholder="Ex: Aula de Trigonometria">
+</div>
+
+<div>
+<label>Turma</label>
+<input id="calTurma" placeholder="Ex: A">
+</div>
+
+<div>
+<label>Matéria</label>
+<input id="calMateria" placeholder="Ex: Matemática">
+</div>
+
+<div>
+<label>Série / Ano</label>
+<input id="calSerie" disabled>
+</div>
+
+<div class="full-field">
+<label>Descrição</label>
+<textarea id="calDescricao" placeholder="Detalhes da aula, prova ou trabalho"></textarea>
+</div>
+
+</div>
+
+<div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:15px;">
+<button id="calSalvar" class="btn btn-primary">💾 Agendar</button>
+<button id="calCancelarEdicao" class="btn btn-gray" style="display:none;">Cancelar edição</button>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="calendar-toolbar">
+<div class="calendar-title" id="calMesTitulo">Calendário</div>
+
+<div class="calendar-actions">
+<button id="calAnterior" class="btn btn-gray">←</button>
+<button id="calHoje" class="btn btn-gray">Hoje</button>
+<button id="calProximo" class="btn btn-gray">→</button>
+</div>
+</div>
+
+<div class="calendar-legend">
+<span><i class="calendar-dot aula"></i> Aula</span>
+<span><i class="calendar-dot prova"></i> Prova</span>
+<span><i class="calendar-dot trabalho"></i> Trabalho</span>
+</div>
+
+<div class="calendar-weekdays">
+<div>Dom</div>
+<div>Seg</div>
+<div>Ter</div>
+<div>Qua</div>
+<div>Qui</div>
+<div>Sex</div>
+<div>Sáb</div>
+</div>
+
+<div id="calGrid" class="calendar-grid"></div>
+
+</div>
+
+<div class="card">
+<div class="card-header">
+<h2>📋 Eventos da turma</h2>
+<button id="calAtualizar" class="btn btn-gray">🔄</button>
+</div>
+<div id="calLista" class="grid"></div>
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+PROVAS
+========================================================== -->
+
+<section
+id="screenProvas"
+class="screen">
+
+<div
+id="provaForm"
+class="card">
+
+<h2>📝 Nova prova</h2>
+
+<label>Data</label>
+
+<input
+id="provaData"
+type="date">
+
+<label>Título</label>
+
+<input
+id="provaTitulo"
+placeholder="Ex: Prova de Matemática">
+
+<label>Destino da prova</label>
+
+<select id="provaDestino">
+
+<option value="ALUNO">
+Apenas um aluno
+</option>
+
+<option value="TODOS">
+Todos os alunos da minha Série/Ano
+</option>
+
+</select>
+
+<div id="provaAlunoBox">
+
+<label>Aluno</label>
+
+<select id="provaAluno">
+
+<option value="">
+Selecione o aluno
+</option>
+
+</select>
+
+</div>
+
+<label>Matéria</label>
+
+<input
+id="provaMateria"
+placeholder="Ex: Matemática">
+
+<label>Nota</label>
+
+<input
+id="provaNota"
+type="number"
+min="0"
+max="10"
+step="0.1"
+placeholder="0 a 10">
+
+<label>Descrição</label>
+
+<textarea
+id="provaDescricao"
+placeholder="Descrição da prova">
+</textarea>
+
+<button
+id="provaSalvar"
+class="btn btn-primary">
+💾 Publicar prova
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>📝 Provas e Notas</h2>
+
+<button
+id="provaAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div
+id="provasGrid"
+class="grid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+TRABALHOS
+========================================================== -->
+
+<section
+id="screenTrabalhos"
+class="screen">
+
+<div
+id="trabalhoForm"
+class="card">
+
+<h2>📂 Novo trabalho</h2>
+
+<label>Data</label>
+
+<input
+id="trabalhoData"
+type="date">
+
+<label>Título</label>
+
+<input
+id="trabalhoTitulo"
+placeholder="Ex: Trabalho de História">
+
+<label>Destino do trabalho</label>
+
+<select id="trabalhoDestino">
+
+<option value="ALUNO">
+Apenas um aluno
+</option>
+
+<option value="TODOS">
+Todos os alunos da minha Série/Ano
+</option>
+
+</select>
+
+<div id="trabalhoAlunoBox">
+
+<label>Aluno</label>
+
+<select id="trabalhoAluno">
+
+<option value="">
+Selecione o aluno
+</option>
+
+</select>
+
+</div>
+
+<label>Matéria</label>
+
+<input
+id="trabalhoMateria"
+placeholder="Ex: História">
+
+<label>Nota</label>
+
+<input
+id="trabalhoNota"
+type="number"
+min="0"
+max="10"
+step="0.1">
+
+<label>Descrição</label>
+
+<textarea
+id="trabalhoDescricao"
+placeholder="Descrição do trabalho">
+</textarea>
+
+<button
+id="trabalhoSalvar"
+class="btn btn-primary">
+💾 Publicar trabalho
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>📂 Trabalhos</h2>
+
+<button
+id="trabalhoAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div
+id="trabalhosGrid"
+class="grid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+LANÇAR NOTAS - PROFESSOR
+========================================================== -->
+
+<section
+id="screenLancarNotas"
+class="screen">
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>📊 Lançar Notas</h2>
+
+<p style="color:#64748b;margin-top:5px;">
+Lance ou altere a média dos alunos da sua Série/Ano.
+</p>
+
+</div>
+
+<button
+id="mediaProfessorAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div class="media-info">
+🔐 <strong>Área exclusiva do professor.</strong>
+Apenas professores podem editar as médias.
+Os alunos somente poderão visualizar suas próprias notas.
+</div>
+
+<div class="media-toolbar">
+
+<div>
+
+<label>Matéria</label>
+
+<select id="mediaMateriaSelect">
+
+<option value="">
+Carregando matérias...
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<button
+id="carregarAlunosMediasBtn"
+class="btn btn-primary">
+👨‍🎓 Carregar alunos
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>👨‍🎓 Alunos e Médias</h2>
+
+<p style="color:#64748b;margin-top:5px;">
+Preencha as médias e clique em salvar.
+</p>
+
+</div>
+
+</div>
+
+<div
+id="mediasProfessorGrid">
+
+<div class="media-loading">
+Selecione uma matéria para começar.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+MINHAS NOTAS - ALUNO
+========================================================== -->
+
+<section
+id="screenMinhasNotas"
+class="screen">
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>📊 Minhas Notas</h2>
+
+<p style="color:#64748b;margin-top:5px;">
+Consulte suas médias por matéria.
+</p>
+
+</div>
+
+<button
+id="minhasNotasAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div class="media-info">
+👨‍🎓 <strong>Área de consulta.</strong>
+Você pode visualizar suas médias, mas não pode alterá-las.
+</div>
+
+<div
+id="mediasAlunoGrid"
+class="grid">
+
+<div class="media-loading">
+Carregando suas notas...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+DÚVIDAS
+========================================================== -->
+
+<section
+id="screenDuvidas"
+class="screen">
+
+<div
+id="duvidaAlunoForm"
+class="card">
+
+<h2>
+❓ Enviar uma dúvida
+</h2>
+
+<label>
+Professor
+</label>
+
+<select id="duvidaProfessor">
+
+<option value="">
+Selecione o professor
+</option>
+
+</select>
+
+<label>
+Assunto
+</label>
+
+<input
+id="duvidaAssunto"
+placeholder="Ex: Dúvida sobre a prova">
+
+<label>
+Dúvida
+</label>
+
+<textarea
+id="duvidaMensagem"
+placeholder="Digite sua dúvida para o professor...">
+</textarea>
+
+<button
+id="duvidaEnviar"
+class="btn btn-primary">
+📨 Enviar dúvida
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h2>
+❓ Dúvidas
+</h2>
+
+<p>
+Perguntas enviadas pelos alunos.
+</p>
+
+</div>
+
+<button
+id="duvidaAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div class="filtro-duvidas">
+
+<button
+id="filtroTodas"
+class="active"
+onclick="mudarFiltroDuvidas('TODAS')">
+Todas
+</button>
+
+<button
+id="filtroNaoLidas"
+onclick="mudarFiltroDuvidas('NAO_LIDAS')">
+🔴 Não lidas
+</button>
+
+<button
+id="filtroLidas"
+onclick="mudarFiltroDuvidas('LIDAS')">
+🟢 Lidas
+</button>
+
+</div>
+
+<br>
+
+<div
+id="duvidasGrid"
+class="grid">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================================================
+ALUNOS
+========================================================== -->
+
+<section
+id="screenAlunos"
+class="screen">
+
+<div class="card">
+
+<div class="card-header">
+
+<h2>
+👨‍🎓 Alunos da minha Série/Ano
+</h2>
+
+<button
+id="alunosAtualizar"
+class="btn btn-gray">
+🔄
+</button>
+
+</div>
+
+<div
+id="alunosGrid"
+class="grid">
+</div>
+
+</div>
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+</div>
+
+
+<script>
+
+// ==========================================================
+// VARIÁVEIS
+// ==========================================================
+
+let loginTipo = "ALUNO";
+let cadastroTipo = "ALUNO";
+let forgotTipo = "ALUNO";
+
+let token = null;
+let usuario = null;
+
+let filtroDuvidas = "TODAS";
+
+
+// ==========================================================
+// UTILIDADES
+// ==========================================================
+
+function el(id) {
+  return document.getElementById(id);
+}
+
+
+function mensagem(id, texto, sucesso) {
+
+  const box = el(id);
+
+  if (!box)
+    return;
+
+  box.textContent = texto;
+
+  box.className =
+    "message show " +
+    (
+      sucesso
+        ? "success"
+        : "error"
+    );
+}
+
+
+function escapeHTML(value) {
+
+  return String(value || "")
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+}
+
+
+// ==========================================================
+// LOGIN TIPO
+// ==========================================================
+
+el("loginAluno").onclick =
+function() {
+
+  loginTipo = "ALUNO";
+
+  el("loginAluno")
+    .classList
+    .add("active");
+
+  el("loginProfessor")
+    .classList
+    .remove("active");
+};
+
+
+el("loginProfessor").onclick =
+function() {
+
+  loginTipo = "PROFESSOR";
+
+  el("loginProfessor")
+    .classList
+    .add("active");
+
+  el("loginAluno")
+    .classList
+    .remove("active");
+};
+
+
+// ==========================================================
+// ABRIR RECUPERAÇÃO
+// ==========================================================
+
+el("esqueciSenhaBtn").onclick =
+function() {
+
+  el("loginPage")
+    .classList
+    .add("hidden");
+
+  el("registerPage")
+    .classList
+    .add("hidden");
+
+  el("forgotPasswordPage")
+    .classList
+    .remove("hidden");
+
+  el("forgotRA").value = "";
+  el("forgotUsuario").value = "";
+  el("forgotNovaSenha").value = "";
+  el("forgotConfirmarSenha").value = "";
+
+  el("forgotMsg").className =
+    "message";
+
+  el("forgotMsg").textContent = "";
+};
+
+
+// ==========================================================
+// RECUPERAÇÃO - ALUNO
+// ==========================================================
+
+el("forgotAluno").onclick =
+function() {
+
+  forgotTipo = "ALUNO";
+
+  el("forgotAluno")
+    .classList
+    .add("active");
+
+  el("forgotProfessor")
+    .classList
+    .remove("active");
+};
+
+
+// ==========================================================
+// RECUPERAÇÃO - PROFESSOR
+// ==========================================================
+
+el("forgotProfessor").onclick =
+function() {
+
+  forgotTipo = "PROFESSOR";
+
+  el("forgotProfessor")
+    .classList
+    .add("active");
+
+  el("forgotAluno")
+    .classList
+    .remove("active");
+};
+
+
+// ==========================================================
+// VOLTAR PARA LOGIN
+// ==========================================================
+
+el("voltarLoginSenha").onclick =
+function() {
+
+  el("forgotPasswordPage")
+    .classList
+    .add("hidden");
+
+  el("loginPage")
+    .classList
+    .remove("hidden");
+
+  el("forgotMsg").className =
+    "message";
+
+  el("forgotMsg").textContent = "";
+};
+
+
+// ==========================================================
+// ALTERAR SENHA
+// ==========================================================
+
+el("alterarSenhaBtn").onclick =
+function() {
+
+  const ra =
+    el("forgotRA")
+      .value
+      .trim();
+
+  const usuarioDigitado =
+    el("forgotUsuario")
+      .value
+      .trim();
+
+  const novaSenha =
+    el("forgotNovaSenha")
+      .value;
+
+  const confirmarSenha =
+    el("forgotConfirmarSenha")
+      .value;
+
+
+  if (!ra) {
+
+    mensagem(
+      "forgotMsg",
+      "Informe o RA/ID.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (!usuarioDigitado) {
+
+    mensagem(
+      "forgotMsg",
+      "Informe o usuário.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (novaSenha.length < 6) {
+
+    mensagem(
+      "forgotMsg",
+      "A nova senha precisa ter pelo menos 6 caracteres.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (novaSenha !== confirmarSenha) {
+
+    mensagem(
+      "forgotMsg",
+      "As senhas não coincidem.",
+      false
+    );
+
+    return;
+  }
+
+
+  mensagem(
+    "forgotMsg",
+    "Alterando senha...",
+    true
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        if (!resultado) {
+
+          mensagem(
+            "forgotMsg",
+            "Não foi possível alterar a senha.",
+            false
+          );
+
+          return;
+        }
+
+
+        mensagem(
+          "forgotMsg",
+          resultado.mensagem,
+          resultado.sucesso
+        );
+
+
+        if (resultado.sucesso) {
+
+          el("forgotRA").value = "";
+          el("forgotUsuario").value = "";
+          el("forgotNovaSenha").value = "";
+          el("forgotConfirmarSenha").value = "";
+
+
+          setTimeout(
+            function() {
+
+              el("forgotPasswordPage")
+                .classList
+                .add("hidden");
+
+              el("loginPage")
+                .classList
+                .remove("hidden");
+
+              el("loginMsg")
+                .className =
+                "message";
+
+              el("loginMsg")
+                .textContent = "";
+
+            },
+            1500
+          );
+        }
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        mensagem(
+          "forgotMsg",
+          error &&
+          error.message
+            ? error.message
+            : "Erro ao alterar a senha.",
+          false
+        );
+      }
+    )
+
+    .recuperarSenha({
+
+      tipo:
+        forgotTipo,
+
+      ra:
+        ra,
+
+      usuario:
+        usuarioDigitado,
+
+      novaSenha:
+        novaSenha
+    });
+};
+
+
+// ==========================================================
+// CADASTRO
+// ==========================================================
+
+el("cadastroBtn").onclick =
+function() {
+
+  el("loginPage")
+    .classList
+    .add("hidden");
+
+  el("registerPage")
+    .classList
+    .remove("hidden");
+};
+
+
+el("voltarLogin").onclick =
+function() {
+
+  el("registerPage")
+    .classList
+    .add("hidden");
+
+  el("loginPage")
+    .classList
+    .remove("hidden");
+};
+
+
+el("cadAluno").onclick =
+function() {
+
+  cadastroTipo = "ALUNO";
+
+  el("cadAluno")
+    .classList
+    .add("active");
+
+  el("cadProfessor")
+    .classList
+    .remove("active");
+
+  el("cadMateriaBox")
+    .classList
+    .add("hidden");
+
+  el("cadTurmaBox")
+    .classList
+    .remove("hidden");
+};
+
+
+el("cadProfessor").onclick =
+function() {
+
+  cadastroTipo = "PROFESSOR";
+
+  el("cadProfessor")
+    .classList
+    .add("active");
+
+  el("cadAluno")
+    .classList
+    .remove("active");
+
+  el("cadMateriaBox")
+    .classList
+    .remove("hidden");
+
+  el("cadTurmaBox")
+    .classList
+    .add("hidden");
+};
+
+
+// ==========================================================
+// SALVAR CADASTRO
+// ==========================================================
+
+el("salvarCadastro").onclick =
+function() {
+
+  const dados = {
+
+    ra:
+      el("cadRA").value.trim(),
+
+    nome:
+      el("cadNome").value.trim(),
+
+    usuario:
+      el("cadUsuario").value.trim(),
+
+    senha:
+      el("cadSenha").value,
+
+    serieAno:
+      el("cadSerie").value,
+
+    turma:
+      el("cadTurma").value.trim(),
+
+    materia:
+      el("cadMateria").value.trim(),
+
+    tipo:
+      cadastroTipo
+  };
+
+
+  if (!dados.ra) {
+
+    mensagem(
+      "cadMsg",
+      "Informe o RA/ID.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (!dados.nome) {
+
+    mensagem(
+      "cadMsg",
+      "Informe o nome.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (!dados.usuario) {
+
+    mensagem(
+      "cadMsg",
+      "Informe o usuário.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (dados.senha.length < 6) {
+
+    mensagem(
+      "cadMsg",
+      "A senha precisa ter pelo menos 6 caracteres.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (!dados.serieAno) {
+
+    mensagem(
+      "cadMsg",
+      "Selecione a Série/Ano.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (
+    cadastroTipo === "ALUNO" &&
+    !dados.turma
+  ) {
+
+    mensagem(
+      "cadMsg",
+      "Informe a Turma.",
+      false
+    );
+
+    return;
+  }
+
+
+  if (
+    cadastroTipo === "PROFESSOR" &&
+    !dados.materia
+  ) {
+
+    mensagem(
+      "cadMsg",
+      "Informe a matéria.",
+      false
+    );
+
+    return;
+  }
+
+
+  mensagem(
+    "cadMsg",
+    "Criando conta...",
+    true
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        mensagem(
+          "cadMsg",
+          resultado.mensagem,
+          resultado.sucesso
+        );
+
+        if (resultado.sucesso) {
+
+          setTimeout(
+            function() {
+
+              el("registerPage")
+                .classList
+                .add("hidden");
+
+              el("loginPage")
+                .classList
+                .remove("hidden");
+
+            },
+            1000
+          );
+        }
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        mensagem(
+          "cadMsg",
+          error.message,
+          false
+        );
+      }
+    )
+
+    .cadastrarUsuario(
+      dados
+    );
+};
+
+
+// ==========================================================
+// LOGIN
+// ==========================================================
+
+el("entrarBtn").onclick =
+fazerLogin;
+
+
+el("loginSenha").onkeydown =
+function(event) {
+
+  if (
+    event.key === "Enter"
+  ) {
+
+    fazerLogin();
+  }
+};
+
+
+function fazerLogin() {
+
+  const usuarioDigitado =
+    el("loginUsuario")
+      .value
+      .trim();
+
+  const senha =
+    el("loginSenha")
+      .value;
+
+
+  if (
+    !usuarioDigitado ||
+    !senha
+  ) {
+
+    mensagem(
+      "loginMsg",
+      "Informe usuário e senha.",
+      false
+    );
+
+    return;
+  }
+
+
+  mensagem(
+    "loginMsg",
+    "Entrando...",
+    true
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        if (
+          !resultado.sucesso
+        ) {
+
+          mensagem(
+            "loginMsg",
+            resultado.mensagem,
+            false
+          );
+
+          return;
+        }
+
+
+        token =
+          resultado.token;
+
+        usuario =
+          resultado.usuario;
+
+
+        localStorage.setItem(
+          "GE_TOKEN",
+          token
+        );
+
+
+        abrirApp();
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        mensagem(
+          "loginMsg",
+          error.message,
+          false
+        );
+      }
+    )
+
+    .login({
+
+      usuario:
+        usuarioDigitado,
+
+      senha:
+        senha,
+
+      tipo:
+        loginTipo
+    });
+}
+
+
+// ==========================================================
+// APP
+// ==========================================================
+
+function abrirApp() {
+
+  el("loginPage")
+    .classList
+    .add("hidden");
+
+  el("registerPage")
+    .classList
+    .add("hidden");
+
+  el("forgotPasswordPage")
+    .classList
+    .add("hidden");
+
+  el("app")
+    .style.display =
+    "block";
+
+
+  el("userName")
+    .textContent =
+    usuario.nome;
+
+
+  el("userType")
+    .textContent =
+    usuario.tipo +
+    " • " +
+    usuario.serieAno;
+
+
+  el("avatar")
+    .textContent =
+    usuario.nome
+      .charAt(0)
+      .toUpperCase();
+
+
+  el("hello")
+    .textContent =
+    "Olá, " +
+    usuario.nome +
+    " 👋";
+
+
+  const professor =
+    usuario.tipo ===
+    "PROFESSOR";
+
+
+  if (professor) {
+
+    el("heroText")
+      .textContent =
+      "Gerencie matérias, provas, trabalhos, notas e responda dúvidas.";
+
+  } else {
+
+    el("heroText")
+      .textContent =
+      "Veja suas matérias, provas, trabalhos, notas e tire suas dúvidas.";
+  }
+
+
+  el("materiaForm")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+
+  el("provaForm")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+
+  el("trabalhoForm")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+  el("calendarioForm")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+
+  el("alunosNav")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+
+  el("alunoStat")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+
+  el("duvidaAlunoForm")
+    .style.display =
+    professor
+      ? "none"
+      : "block";
+
+
+  // NOVO
+  el("lancarNotasNav")
+    .style.display =
+    professor
+      ? "block"
+      : "none";
+
+
+  // NOVO
+  el("minhasNotasNav")
+    .style.display =
+    professor
+      ? "none"
+      : "block";
+
+
+  carregarMaterias();
+  carregarProvas();
+  carregarTrabalhos();
+  carregarCalendario();
+  carregarDuvidas();
+
+  if (professor) {
+
+    carregarAlunos();
+
+    carregarMateriasParaMedias();
+
+  } else {
+
+    carregarProfessores();
+
+    carregarMinhasNotas();
+
+  }
+
+  carregarEstatisticas();
+}
+
+
+// ==========================================================
+// ESTATÍSTICAS
+// ==========================================================
+
+function carregarEstatisticas() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(stats) {
+
+        el("materiaCount")
+          .textContent =
+          stats.materias;
+
+        el("provaCount")
+          .textContent =
+          stats.provas;
+
+        el("trabalhoCount")
+          .textContent =
+          stats.trabalhos;
+
+        el("alunoCount")
+          .textContent =
+          stats.alunos;
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .obterEstatisticas(
+      token
+    );
+}
+
+
+// ==========================================================
+// NAVEGAÇÃO
+// ==========================================================
+
+document
+.querySelectorAll(
+  ".nav[data-screen]"
+)
+.forEach(
+  function(button) {
+
+    button.onclick =
+    function() {
+
+      document
+      .querySelectorAll(
+        ".screen"
+      )
+      .forEach(
+        function(screen) {
+
+          screen
+            .classList
+            .remove("active");
+        }
+      );
+
+
+      const nome =
+        this.dataset.screen;
+
+
+      const id =
+        "screen" +
+        nome
+          .charAt(0)
+          .toUpperCase() +
+        nome.slice(1);
+
+
+      const tela =
+        el(id);
+
+
+      if (!tela)
+        return;
+
+
+      tela
+        .classList
+        .add("active");
+
+
+      document
+      .querySelectorAll(
+        ".nav"
+      )
+      .forEach(
+        function(nav) {
+
+          nav.classList
+            .remove("active");
+        }
+      );
+
+
+      this.classList
+        .add("active");
+
+
+      const titulos = {
+
+        dashboard:
+          "Dashboard",
+
+        materias:
+          "Matérias",
+
+        calendario:
+          "Calendário",
+
+        provas:
+          "Provas e Notas",
+
+        trabalhos:
+          "Trabalhos",
+
+        lancarNotas:
+          "Lançar Notas",
+
+        minhasNotas:
+          "Minhas Notas",
+
+        duvidas:
+          "Dúvidas",
+
+        alunos:
+          "Alunos"
+      };
+
+
+      el("pageTitle")
+        .textContent =
+        titulos[nome] ||
+        "Gestão Escolar";
+
+
+      if (
+        nome === "materias"
+      )
+        carregarMaterias();
+
+
+      if (
+        nome === "calendario"
+      ) {
+        carregarCalendario();
+      }
+
+
+      if (
+        nome === "provas"
+      ) {
+
+        carregarProvas();
+
+        if (
+          usuario.tipo ===
+          "PROFESSOR"
+        ) {
+
+          carregarAlunos();
+        }
+      }
+
+
+      if (
+        nome === "trabalhos"
+      ) {
+
+        carregarTrabalhos();
+
+        if (
+          usuario.tipo ===
+          "PROFESSOR"
+        ) {
+
+          carregarAlunos();
+        }
+      }
+
+
+      if (
+        nome === "lancarNotas"
+      ) {
+
+        if (
+          usuario.tipo ===
+          "PROFESSOR"
+        ) {
+
+          carregarMateriasParaMedias();
+
+          setTimeout(
+            function() {
+
+              carregarAlunosParaMedias();
+
+            },
+            100
+          );
+        }
+      }
+
+
+      if (
+        nome === "minhasNotas"
+      ) {
+
+        if (
+          usuario.tipo ===
+          "ALUNO"
+        ) {
+
+          carregarMinhasNotas();
+        }
+      }
+
+
+      if (
+        nome === "duvidas"
+      ) {
+
+        carregarDuvidas();
+
+        if (
+          usuario.tipo ===
+          "ALUNO"
+        ) {
+
+          carregarProfessores();
+        }
+      }
+
+
+      if (
+        nome === "alunos"
+      ) {
+
+        carregarAlunos();
+      }
+
+
+      // Fecha o menu mobile após navegar
+      el("sidebar")
+        .classList
+        .remove("open");
+
+    };
+  }
+);
+
+
+// ==========================================================
+// MATÉRIAS
+// ==========================================================
+
+el("materiaSalvar").onclick =
+function() {
+
+  const dados = {
+
+    nome:
+      el("materiaNome")
+        .value.trim(),
+
+    conteudo:
+      el("materiaConteudo")
+        .value.trim(),
+
+    links:
+      el("materiaLinks")
+        .value.trim()
+  };
+
+
+  if (!dados.nome) {
+
+    alert(
+      "Informe o nome da matéria."
+    );
+
+    return;
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        el("materiaNome").value = "";
+        el("materiaConteudo").value = "";
+        el("materiaLinks").value = "";
+
+        carregarMaterias();
+
+        // NOVO
+        if (
+          usuario &&
+          usuario.tipo ===
+          "PROFESSOR"
+        ) {
+
+          carregarMateriasParaMedias();
+        }
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .cadastrarMateria(
+      token,
+      dados
+    );
+};
+
+
+el("materiaAtualizar").onclick =
+carregarMaterias;
+
+
+function carregarMaterias() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(materias) {
+
+        const grid =
+          el("materiasGrid");
+
+        grid.innerHTML = "";
+
+
+        if (!materias.length) {
+
+          grid.innerHTML =
+            '<div class="empty">' +
+            '📚<br><br>Nenhuma matéria encontrada.' +
+            '</div>';
+
+          return;
+        }
+
+
+        materias.forEach(
+          function(materia) {
+
+            let linksHTML = "";
+
+            const links =
+              String(
+                materia.links || ""
+              )
+              .split(/\n|,/)
+              .map(
+                x => x.trim()
+              )
+              .filter(Boolean);
+
+
+            if (links.length) {
+
+              linksHTML =
+                '<div class="links">' +
+                '<strong>🔗 Materiais</strong>' +
+
+                links.map(
+                  function(link) {
+
+                    const url =
+                      /^https?:\/\//i
+                        .test(link)
+                        ? link
+                        : "https://" + link;
+
+                    return (
+                      '<a class="study-link" href="' +
+                      escapeHTML(url) +
+                      '" target="_blank">' +
+                      '🌐 ' +
+                      escapeHTML(link) +
+                      '</a>'
+                    );
+                  }
+                ).join("") +
+
+                '</div>';
+            }
+
+
+            let botoes = "";
+
+
+            if (
+              usuario.tipo ===
+              "PROFESSOR" &&
+
+              String(
+                materia.professorRA
+              ) ===
+              String(
+                usuario.ra
+              )
+            ) {
+
+              botoes =
+                '<div style="margin-top:15px;display:flex;gap:8px">' +
+
+                '<button class="btn btn-primary" ' +
+                'onclick="editarMateria(\'' +
+                escapeHTML(materia.linha) +
+                '\')">' +
+                '✏️ Editar' +
+                '</button>' +
+
+                '<button class="btn btn-red" ' +
+                'onclick="excluirMateria(\'' +
+                escapeHTML(materia.linha) +
+                '\')">' +
+                '🗑 Excluir' +
+                '</button>' +
+
+                '</div>';
+            }
+
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+            card.className =
+              "subject";
+
+
+            card.innerHTML =
+
+              '<div class="subject-head">' +
+
+              '<h3>📚 ' +
+              escapeHTML(materia.nome) +
+              '</h3>' +
+
+              '<div class="subject-meta">' +
+              'Professor: ' +
+              escapeHTML(materia.professor) +
+              '<br>' +
+              'Série/Ano: ' +
+              escapeHTML(materia.serieAno) +
+              '</div>' +
+
+              '</div>' +
+
+              '<div class="subject-body">' +
+
+              '<div class="subject-content">' +
+              '<strong>📖 Conteúdo</strong>' +
+              '<br><br>' +
+              escapeHTML(
+                materia.conteudo ||
+                "Nenhum conteúdo cadastrado."
+              ) +
+              '</div>' +
+
+              linksHTML +
+
+              botoes +
+
+              '</div>';
+
+
+            grid.appendChild(card);
+          }
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarMaterias(token);
+}
+
+
+function editarMateria(linha) {
+
+  const nome =
+    prompt(
+      "Nome da matéria:"
+    );
+
+  if (nome === null)
+    return;
+
+
+  const conteudo =
+    prompt(
+      "Conteúdo:"
+    );
+
+  if (conteudo === null)
+    return;
+
+
+  const links =
+    prompt(
+      "Links, um por linha:"
+    );
+
+  if (links === null)
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        carregarMaterias();
+
+        if (
+          usuario &&
+          usuario.tipo ===
+          "PROFESSOR"
+        ) {
+
+          carregarMateriasParaMedias();
+        }
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .atualizarMateria(
+      token,
+      {
+        linha:
+          Number(linha),
+
+        nome:
+          nome,
+
+        conteudo:
+          conteudo,
+
+        links:
+          links
+      }
+    );
+}
+
+
+function excluirMateria(linha) {
+
+  if (
+    !confirm(
+      "Deseja excluir esta matéria?"
+    )
+  )
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        carregarMaterias();
+
+        if (
+          usuario &&
+          usuario.tipo ===
+          "PROFESSOR"
+        ) {
+
+          carregarMateriasParaMedias();
+        }
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .excluirMateria(
+      token,
+      Number(linha)
+    );
+}
+
+
+// ==========================================================
+// ALUNOS
+// ==========================================================
+
+function carregarAlunos() {
+
+  if (
+    usuario.tipo !==
+    "PROFESSOR"
+  )
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(alunos) {
+
+        el("alunoCount")
+          .textContent =
+          alunos.length;
+
+
+        preencherSelectAlunos(
+          "provaAluno",
+          alunos
+        );
+
+        preencherSelectAlunos(
+          "trabalhoAluno",
+          alunos
+        );
+
+
+        const grid =
+          el("alunosGrid");
+
+        grid.innerHTML = "";
+
+
+        if (!alunos.length) {
+
+          grid.innerHTML =
+            '<div class="empty">' +
+            'Nenhum aluno cadastrado nesta Série/Ano.' +
+            '</div>';
+
+          return;
+        }
+
+
+        alunos.forEach(
+          function(aluno) {
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+            card.className =
+              "item";
+
+
+            card.innerHTML =
+
+              '<h3>👨‍🎓 ' +
+              escapeHTML(aluno.nome) +
+              '</h3>' +
+
+              '<p><strong>RA:</strong> ' +
+              escapeHTML(aluno.ra) +
+              '</p>' +
+
+              '<p><strong>Série/Ano:</strong> ' +
+              escapeHTML(aluno.serieAno) +
+              '</p>' +
+
+              '<p><strong>Turma:</strong> ' +
+              escapeHTML(aluno.turma || "-") +
+              '</p>';
+
+
+            grid.appendChild(card);
+          }
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarAlunos(token);
+}
+
+
+function preencherSelectAlunos(
+  id,
+  alunos
+) {
+
+  const select =
+    el(id);
+
+  if (!select)
+    return;
+
+
+  select.innerHTML =
+    '<option value="">Selecione o aluno</option>';
+
+
+  alunos.forEach(
+    function(aluno) {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        aluno.ra;
+
+      option.textContent =
+        aluno.nome +
+        " — RA: " +
+        aluno.ra;
+
+      select.appendChild(
+        option
+      );
+    }
+  );
+}
+
+
+el("alunosAtualizar").onclick =
+carregarAlunos;
+
+
+// ==========================================================
+// PROVAS
+// ==========================================================
+
+el("provaDestino").onchange =
+function() {
+
+  el("provaAlunoBox")
+    .style.display =
+    this.value === "TODOS"
+      ? "none"
+      : "block";
+};
+
+
+el("provaSalvar").onclick =
+function() {
+
+  const todos =
+    el("provaDestino")
+      .value === "TODOS";
+
+
+  const dados = {
+
+    data:
+      el("provaData")
+        .value,
+
+    titulo:
+      el("provaTitulo")
+        .value.trim(),
+
+    alunoRA:
+      el("provaAluno")
+        .value,
+
+    todosSerie:
+      todos,
+
+    materia:
+      el("provaMateria")
+        .value.trim(),
+
+    nota:
+      el("provaNota")
+        .value,
+
+    descricao:
+      el("provaDescricao")
+        .value.trim()
+  };
+
+
+  if (!dados.data) {
+
+    alert(
+      "Informe a data."
+    );
+
+    return;
+  }
+
+
+  if (!dados.titulo) {
+
+    alert(
+      "Informe o título."
+    );
+
+    return;
+  }
+
+
+  if (
+    !todos &&
+    !dados.alunoRA
+  ) {
+
+    alert(
+      "Selecione o aluno."
+    );
+
+    return;
+  }
+
+
+  if (!dados.materia) {
+
+    alert(
+      "Informe a matéria."
+    );
+
+    return;
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        limparFormularioProva();
+
+        carregarProvas();
+
+        carregarEstatisticas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .cadastrarProva(
+      token,
+      dados
+    );
+};
+
+
+function limparFormularioProva() {
+
+  el("provaData").value = "";
+  el("provaTitulo").value = "";
+  el("provaAluno").value = "";
+  el("provaMateria").value = "";
+  el("provaNota").value = "";
+  el("provaDescricao").value = "";
+}
+
+
+el("provaAtualizar").onclick =
+carregarProvas;
+
+
+function carregarProvas() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(provas) {
+
+        el("provaCount")
+          .textContent =
+          provas.length;
+
+
+        const grid =
+          el("provasGrid");
+
+        grid.innerHTML = "";
+
+
+        if (!provas.length) {
+
+          grid.innerHTML =
+            '<div class="empty">' +
+            '📝<br><br>Nenhuma prova encontrada.' +
+            '</div>';
+
+          return;
+        }
+
+
+        provas.forEach(
+          function(prova) {
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+            card.className =
+              "item";
+
+
+            let botao = "";
+
+
+            if (
+              usuario.tipo ===
+              "PROFESSOR"
+            ) {
+
+              botao =
+                '<br><button class="btn btn-red" ' +
+                'onclick="excluirProva(\'' +
+                escapeHTML(prova.linha) +
+                '\')">' +
+                '🗑 Excluir' +
+                '</button>';
+            }
+
+
+            const nota =
+              prova.nota !== ""
+                ? '<span class="note">⭐ Nota: ' +
+                  escapeHTML(prova.nota) +
+                  '</span>'
+                : '<span class="note">⏳ Nota não lançada</span>';
+
+
+            card.innerHTML =
+
+              '<h3>📝 ' +
+              escapeHTML(prova.titulo) +
+              '</h3>' +
+
+              '<p><strong>Data:</strong> ' +
+              escapeHTML(prova.data) +
+              '</p>' +
+
+              '<p><strong>Aluno:</strong> ' +
+              escapeHTML(prova.aluno) +
+              '</p>' +
+
+              '<p><strong>RA:</strong> ' +
+              escapeHTML(prova.alunoRA) +
+              '</p>' +
+
+              '<p><strong>Matéria:</strong> ' +
+              escapeHTML(prova.materia) +
+              '</p>' +
+
+              '<p><strong>Professor:</strong> ' +
+              escapeHTML(prova.professor) +
+              '</p>' +
+
+              nota +
+
+              '<p><strong>Descrição:</strong> ' +
+              escapeHTML(
+                prova.descricao || "-"
+              ) +
+              '</p>' +
+
+              botao;
+
+
+            grid.appendChild(card);
+          }
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarProvas(token);
+}
+
+
+function excluirProva(linha) {
+
+  if (
+    !confirm(
+      "Excluir esta prova?"
+    )
+  )
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        carregarProvas();
+
+        carregarEstatisticas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .excluirProva(
+      token,
+      Number(linha)
+    );
+}
+
+
+// ==========================================================
+// TRABALHOS
+// ==========================================================
+
+el("trabalhoDestino").onchange =
+function() {
+
+  el("trabalhoAlunoBox")
+    .style.display =
+    this.value === "TODOS"
+      ? "none"
+      : "block";
+};
+
+
+el("trabalhoSalvar").onclick =
+function() {
+
+  const todos =
+    el("trabalhoDestino")
+      .value === "TODOS";
+
+
+  const dados = {
+
+    data:
+      el("trabalhoData")
+        .value,
+
+    titulo:
+      el("trabalhoTitulo")
+        .value.trim(),
+
+    alunoRA:
+      el("trabalhoAluno")
+        .value,
+
+    todosSerie:
+      todos,
+
+    materia:
+      el("trabalhoMateria")
+        .value.trim(),
+
+    nota:
+      el("trabalhoNota")
+        .value,
+
+    descricao:
+      el("trabalhoDescricao")
+        .value.trim()
+  };
+
+
+  if (!dados.data) {
+
+    alert(
+      "Informe a data."
+    );
+
+    return;
+  }
+
+
+  if (!dados.titulo) {
+
+    alert(
+      "Informe o título."
+    );
+
+    return;
+  }
+
+
+  if (
+    !todos &&
+    !dados.alunoRA
+  ) {
+
+    alert(
+      "Selecione o aluno."
+    );
+
+    return;
+  }
+
+
+  if (!dados.materia) {
+
+    alert(
+      "Informe a matéria."
+    );
+
+    return;
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        limparFormularioTrabalho();
+
+        carregarTrabalhos();
+
+        carregarEstatisticas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .cadastrarTrabalho(
+      token,
+      dados
+    );
+};
+
+
+function limparFormularioTrabalho() {
+
+  el("trabalhoData").value = "";
+  el("trabalhoTitulo").value = "";
+  el("trabalhoAluno").value = "";
+  el("trabalhoMateria").value = "";
+  el("trabalhoNota").value = "";
+  el("trabalhoDescricao").value = "";
+}
+
+
+el("trabalhoAtualizar").onclick =
+carregarTrabalhos;
+
+
+function carregarTrabalhos() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(trabalhos) {
+
+        el("trabalhoCount")
+          .textContent =
+          trabalhos.length;
+
+
+        const grid =
+          el("trabalhosGrid");
+
+        grid.innerHTML = "";
+
+
+        if (!trabalhos.length) {
+
+          grid.innerHTML =
+            '<div class="empty">' +
+            '📂<br><br>Nenhum trabalho encontrado.' +
+            '</div>';
+
+          return;
+        }
+
+
+        trabalhos.forEach(
+          function(trabalho) {
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+            card.className =
+              "item";
+
+
+            const nota =
+              trabalho.nota !== ""
+                ? '<span class="note">⭐ Nota: ' +
+                  escapeHTML(trabalho.nota) +
+                  '</span>'
+                : '<span class="note">⏳ Nota não lançada</span>';
+
+
+            let botao = "";
+
+
+            if (
+              usuario.tipo ===
+              "PROFESSOR"
+            ) {
+
+              botao =
+                '<br><button class="btn btn-red" ' +
+                'onclick="excluirTrabalho(\'' +
+                escapeHTML(trabalho.linha) +
+                '\')">' +
+                '🗑 Excluir' +
+                '</button>';
+            }
+
+
+            card.innerHTML =
+
+              '<h3>📂 ' +
+              escapeHTML(trabalho.titulo) +
+              '</h3>' +
+
+              '<p><strong>Data:</strong> ' +
+              escapeHTML(trabalho.data) +
+              '</p>' +
+
+              '<p><strong>Aluno:</strong> ' +
+              escapeHTML(trabalho.aluno) +
+              '</p>' +
+
+              '<p><strong>Matéria:</strong> ' +
+              escapeHTML(trabalho.materia) +
+              '</p>' +
+
+              '<p><strong>Professor:</strong> ' +
+              escapeHTML(trabalho.professor) +
+              '</p>' +
+
+              nota +
+
+              '<p><strong>Descrição:</strong> ' +
+              escapeHTML(
+                trabalho.descricao || "-"
+              ) +
+              '</p>' +
+
+              botao;
+
+
+            grid.appendChild(card);
+          }
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarTrabalhos(token);
+}
+
+
+function excluirTrabalho(linha) {
+
+  if (
+    !confirm(
+      "Excluir este trabalho?"
+    )
+  )
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        carregarTrabalhos();
+
+        carregarEstatisticas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .excluirTrabalho(
+      token,
+      Number(linha)
+    );
+}
+
+
+// ==========================================================
+// MÉDIAS / NOTAS - PROFESSOR
+// ==========================================================
+
+function carregarMateriasParaMedias() {
+
+  if (
+    !usuario ||
+    usuario.tipo !==
+    "PROFESSOR"
+  )
+    return;
+
+
+  const select =
+    el("mediaMateriaSelect");
+
+
+  if (!select)
+    return;
+
+
+  select.innerHTML =
+    '<option value="">Carregando matérias...</option>';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(materias) {
+
+        select.innerHTML =
+          '<option value="">Selecione a matéria</option>';
+
+
+        if (
+          !materias ||
+          !materias.length
+        ) {
+
+          select.innerHTML =
+            '<option value="">Nenhuma matéria encontrada</option>';
+
+
+          el("mediasProfessorGrid")
+            .innerHTML =
+            '<div class="empty">' +
+            '📚<br><br>Nenhuma matéria disponível para lançamento de notas.' +
+            '</div>';
+
+          return;
+        }
+
+
+        materias.forEach(
+          function(materia) {
+
+            const option =
+              document.createElement(
+                "option"
+              );
+
+            option.value =
+              materia;
+
+            option.textContent =
+              materia;
+
+            select.appendChild(
+              option
+            );
+          }
+        );
+
+
+        // Seleciona a primeira matéria automaticamente
+        if (!select.value) {
+
+          select.selectedIndex = 1;
+        }
+
+
+        carregarAlunosParaMedias();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarMateriasParaMedias(
+      token
+    );
+}
+
+
+el("mediaMateriaSelect").onchange =
+function() {
+
+  if (
+    !this.value
+  ) {
+
+    el("mediasProfessorGrid")
+      .innerHTML =
+      '<div class="empty">' +
+      '📚<br><br>Selecione uma matéria.' +
+      '</div>';
+
+    return;
+  }
+
+
+  carregarAlunosParaMedias();
+};
+
+
+el("carregarAlunosMediasBtn").onclick =
+carregarAlunosParaMedias;
+
+
+el("mediaProfessorAtualizar").onclick =
+function() {
+
+  carregarMateriasParaMedias();
+
+};
+
+
+function carregarAlunosParaMedias() {
+
+  if (
+    !usuario ||
+    usuario.tipo !==
+    "PROFESSOR"
+  )
+    return;
+
+
+  const materia =
+    el("mediaMateriaSelect")
+      .value;
+
+
+  if (!materia) {
+
+    el("mediasProfessorGrid")
+      .innerHTML =
+      '<div class="empty">' +
+      '📚<br><br>Selecione uma matéria para carregar os alunos.' +
+      '</div>';
+
+    return;
+  }
+
+
+  el("mediasProfessorGrid")
+    .innerHTML =
+    '<div class="media-loading">' +
+    '⏳ Carregando alunos...' +
+    '</div>';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(alunos) {
+
+        renderizarAlunosParaMedias(
+          alunos
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarAlunosParaMedias(
+      token,
+      materia
+    );
+}
+
+
+function renderizarAlunosParaMedias(
+  alunos
+) {
+
+  const container =
+    el("mediasProfessorGrid");
+
+
+  container.innerHTML = "";
+
+
+  if (
+    !alunos ||
+    !alunos.length
+  ) {
+
+    container.innerHTML =
+      '<div class="empty">' +
+      '👨‍🎓<br><br>Nenhum aluno encontrado nesta Série/Ano.' +
+      '</div>';
+
+    return;
+  }
+
+
+  const tabela =
+    document.createElement(
+      "div"
+    );
+
+  tabela.className =
+    "media-table-wrap";
+
+
+  let html =
+
+    '<table class="media-table">' +
+
+    '<thead>' +
+
+    '<tr>' +
+
+    '<th>Aluno</th>' +
+
+    '<th>RA</th>' +
+
+    '<th>Turma</th>' +
+
+    '<th>Média</th>' +
+
+    '<th>Status</th>' +
+
+    '</tr>' +
+
+    '</thead>' +
+
+    '<tbody>';
+
+
+  alunos.forEach(
+    function(aluno, index) {
+
+      const valor =
+        aluno.media || "";
+
+
+      const status =
+        valor !== ""
+          ? '<span class="media-status lancada">✅ Lançada</span>'
+          : '<span class="media-status pendente">⏳ Pendente</span>';
+
+
+      html +=
+
+        '<tr>' +
+
+        '<td class="media-name">' +
+        escapeHTML(aluno.nome) +
+        '</td>' +
+
+        '<td>' +
+        escapeHTML(aluno.ra) +
+        '</td>' +
+
+        '<td>' +
+        escapeHTML(aluno.turma || "-") +
+        '</td>' +
+
+        '<td>' +
+
+        '<input ' +
+        'type="text" ' +
+        'inputmode="decimal" ' +
+        'class="media-input" ' +
+        'data-ra="' +
+        escapeHTML(aluno.ra) +
+        '" ' +
+        'value="' +
+        escapeHTML(valor) +
+        '" ' +
+        'placeholder="0 a 10" ' +
+        'maxlength="4">' +
+
+        '</td>' +
+
+        '<td>' +
+        status +
+        '</td>' +
+
+        '</tr>';
+    }
+  );
+
+
+  html +=
+    '</tbody>' +
+    '</table>';
+
+
+  tabela.innerHTML =
+    html;
+
+
+  container.appendChild(
+    tabela
+  );
+
+
+  const acoes =
+    document.createElement(
+      "div"
+    );
+
+  acoes.className =
+    "media-acoes";
+
+
+  const salvarBtn =
+    document.createElement(
+      "button"
+    );
+
+  salvarBtn.className =
+    "btn btn-green";
+
+  salvarBtn.textContent =
+    "💾 Salvar todas as médias";
+
+
+  salvarBtn.onclick =
+    function() {
+
+      salvarTodasAsMedias();
+    };
+
+
+  const limparBtn =
+    document.createElement(
+      "button"
+    );
+
+  limparBtn.className =
+    "btn btn-gray";
+
+  limparBtn.textContent =
+    "🧹 Limpar campos";
+
+
+  limparBtn.onclick =
+    function() {
+
+      container
+        .querySelectorAll(
+          ".media-input"
+        )
+        .forEach(
+          function(input) {
+
+            input.value = "";
+          }
+        );
+    };
+
+
+  acoes.appendChild(
+    salvarBtn
+  );
+
+  acoes.appendChild(
+    limparBtn
+  );
+
+
+  container.appendChild(
+    acoes
+  );
+}
+
+
+function salvarTodasAsMedias() {
+
+  if (
+    !usuario ||
+    usuario.tipo !==
+    "PROFESSOR"
+  ) {
+
+    mostrarErro({
+      message:
+        "Apenas professores podem lançar médias."
+    });
+
+    return;
+  }
+
+
+  const materia =
+    el("mediaMateriaSelect")
+      .value;
+
+
+  if (!materia) {
+
+    alert(
+      "Selecione a matéria."
+    );
+
+    return;
+  }
+
+
+  const inputs =
+    document
+      .querySelectorAll(
+        "#mediasProfessorGrid .media-input"
+      );
+
+
+  if (!inputs.length) {
+
+    alert(
+      "Nenhum aluno foi carregado."
+    );
+
+    return;
+  }
+
+
+  const medias = [];
+
+
+  let erro =
+    false;
+
+
+  inputs.forEach(
+    function(input) {
+
+      if (erro)
+        return;
+
+
+      const valor =
+        input.value
+          .trim()
+          .replace(",", ".");
+
+
+      if (valor !== "") {
+
+        const numero =
+          Number(valor);
+
+
+        if (
+          isNaN(numero) ||
+          numero < 0 ||
+          numero > 10
+        ) {
+
+          erro = true;
+
+          input.focus();
+
+          alert(
+            "A média deve ser um número entre 0 e 10."
+          );
+
+          return;
+        }
+      }
+
+
+      medias.push({
+
+        alunoRA:
+          input.dataset.ra,
+
+        media:
+          valor
+      });
+    }
+  );
+
+
+  if (erro)
+    return;
+
+
+  const confirmar =
+    confirm(
+      "Deseja salvar as médias desta matéria?"
+    );
+
+
+  if (!confirmar)
+    return;
+
+
+  const botao =
+    document.querySelector(
+      "#mediasProfessorGrid .btn-green"
+    );
+
+
+  if (botao) {
+
+    botao.disabled =
+      true;
+
+    botao.textContent =
+      "⏳ Salvando...";
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        if (botao) {
+
+          botao.disabled =
+            false;
+
+          botao.textContent =
+            "💾 Salvar todas as médias";
+        }
+
+
+        alert(
+          resultado.mensagem
+        );
+
+
+        carregarAlunosParaMedias();
+      }
+    )
+
+    .withFailureHandler(
+      function(error) {
+
+        if (botao) {
+
+          botao.disabled =
+            false;
+
+          botao.textContent =
+            "💾 Salvar todas as médias";
+        }
+
+
+        mostrarErro(error);
+      }
+    )
+
+    .salvarMedias(
+      token,
+      materia,
+      medias
+    );
+}
+
+
+// ==========================================================
+// MÉDIAS / NOTAS - ALUNO
+// ==========================================================
+
+el("minhasNotasAtualizar").onclick =
+carregarMinhasNotas;
+
+
+function carregarMinhasNotas() {
+
+  if (
+    !usuario ||
+    usuario.tipo !==
+    "ALUNO"
+  )
+    return;
+
+
+  const grid =
+    el("mediasAlunoGrid");
+
+
+  if (!grid)
+    return;
+
+
+  grid.innerHTML =
+    '<div class="media-loading">' +
+    '⏳ Carregando suas notas...' +
+    '</div>';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(medias) {
+
+        renderizarMediasAluno(
+          medias
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarMediasAluno(
+      token
+    );
+}
+
+
+function renderizarMediasAluno(
+  medias
+) {
+
+  const grid =
+    el("mediasAlunoGrid");
+
+
+  grid.innerHTML = "";
+
+
+  if (
+    !medias ||
+    !medias.length
+  ) {
+
+    grid.innerHTML =
+      '<div class="empty">' +
+      '📊<br><br>Nenhuma média foi lançada para você ainda.' +
+      '</div>';
+
+    return;
+  }
+
+
+  medias.forEach(
+    function(item) {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "media-aluno-card";
+
+
+      const valor =
+        item.media !== ""
+          ? escapeHTML(item.media)
+          : "Não lançada";
+
+
+      const classe =
+        item.media !== ""
+          ? "media-valor-grande"
+          : "";
+
+
+      card.innerHTML =
+
+        '<div class="media-aluno-card-head">' +
+
+        '<h3>📚 ' +
+        escapeHTML(item.materia) +
+        '</h3>' +
+
+        '<p style="color:#64748b;font-size:12px">' +
+        'Professor: ' +
+        escapeHTML(item.professor || "-") +
+        '</p>' +
+
+        '</div>' +
+
+        '<div class="media-aluno-card-body">' +
+
+        '<p><strong>Série/Ano:</strong> ' +
+        escapeHTML(item.serieAno || "-") +
+        '</p>' +
+
+        '<p><strong>RA:</strong> ' +
+        escapeHTML(item.alunoRA || usuario.ra) +
+        '</p>' +
+
+        '<p><strong>Média:</strong></p>' +
+
+        '<div class="' +
+        classe +
+        '">' +
+        valor +
+        '</div>' +
+
+        '<p style="margin-top:12px;color:#64748b;font-size:12px">' +
+        '<strong>Atualizada em:</strong> ' +
+        escapeHTML(item.dataAtualizacao || "-") +
+        '</p>' +
+
+        '</div>';
+
+
+      grid.appendChild(
+        card
+      );
+    }
+  );
+}
+
+
+// ==========================================================
+// PROFESSORES
+// ==========================================================
+
+function carregarProfessores() {
+
+  if (
+    usuario.tipo !==
+    "ALUNO"
+  )
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(professores) {
+
+        const select =
+          el("duvidaProfessor");
+
+        select.innerHTML =
+          '<option value="">Selecione o professor</option>';
+
+
+        professores.forEach(
+          function(professor) {
+
+            const option =
+              document.createElement(
+                "option"
+              );
+
+            option.value =
+              professor.ra;
+
+            option.textContent =
+              professor.nome +
+              " — " +
+              professor.materia;
+
+            select.appendChild(
+              option
+            );
+          }
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarProfessores(token);
+}
+
+
+// ==========================================================
+// ENVIAR DÚVIDA
+// ==========================================================
+
+el("duvidaEnviar").onclick =
+function() {
+
+  const dados = {
+
+    professorRA:
+      el("duvidaProfessor")
+        .value,
+
+    assunto:
+      el("duvidaAssunto")
+        .value.trim(),
+
+    mensagem:
+      el("duvidaMensagem")
+        .value.trim()
+  };
+
+
+  if (!dados.professorRA) {
+
+    alert(
+      "Selecione o professor."
+    );
+
+    return;
+  }
+
+
+  if (!dados.assunto) {
+
+    alert(
+      "Informe o assunto."
+    );
+
+    return;
+  }
+
+
+  if (!dados.mensagem) {
+
+    alert(
+      "Digite sua dúvida."
+    );
+
+    return;
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        el("duvidaAssunto")
+          .value = "";
+
+        el("duvidaMensagem")
+          .value = "";
+
+        carregarDuvidas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .cadastrarDuvida(
+      token,
+      dados
+    );
+};
+
+
+// ==========================================================
+// FILTRO DÚVIDAS
+// ==========================================================
+
+function mudarFiltroDuvidas(
+  filtro
+) {
+
+  filtroDuvidas =
+    filtro;
+
+
+  document
+    .querySelectorAll(
+      ".filtro-duvidas button"
+    )
+    .forEach(
+      function(btn) {
+
+        btn.classList
+          .remove("active");
+      }
+    );
+
+
+  if (
+    filtro === "TODAS"
+  )
+    el("filtroTodas")
+      .classList
+      .add("active");
+
+
+  if (
+    filtro === "NAO_LIDAS"
+  )
+    el("filtroNaoLidas")
+      .classList
+      .add("active");
+
+
+  if (
+    filtro === "LIDAS"
+  )
+    el("filtroLidas")
+      .classList
+      .add("active");
+
+
+  carregarDuvidas();
+}
+
+
+el("duvidaAtualizar").onclick =
+carregarDuvidas;
+
+
+// ==========================================================
+// CARREGAR DÚVIDAS
+// ==========================================================
+
+function carregarDuvidas() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(duvidas) {
+
+        const grid =
+          el("duvidasGrid");
+
+        grid.innerHTML = "";
+
+
+        if (!duvidas.length) {
+
+          grid.innerHTML =
+            '<div class="empty">' +
+            '❓<br><br>Nenhuma dúvida encontrada.' +
+            '</div>';
+
+          return;
+        }
+
+
+        duvidas.forEach(
+          function(duvida) {
+
+            const professor =
+              usuario.tipo ===
+              "PROFESSOR";
+
+
+            const status =
+              professor
+                ? duvida.statusProfessor
+                : duvida.statusAluno;
+
+
+            const naoLida =
+              status ===
+              "NAO_LIDA";
+
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+
+            card.className =
+              "duvida " +
+              (
+                naoLida
+                  ? "duvida-nao-lida"
+                  : "duvida-lida"
+              );
+
+
+            const statusHTML =
+              naoLida
+
+                ? '<span class="status status-nao">🔵 Não lida</span>'
+
+                : '<span class="status status-sim">🟢 Lida</span>';
+
+
+            let respostaHTML = "";
+
+
+            if (
+              duvida.resposta
+            ) {
+
+              respostaHTML =
+                '<div class="resposta">' +
+
+                '<strong>👨‍🏫 Resposta do professor:</strong>' +
+
+                '<br><br>' +
+
+                escapeHTML(
+                  duvida.resposta
+                ) +
+
+                '</div>';
+            }
+
+
+            let botoes = "";
+
+
+            if (naoLida) {
+
+              botoes +=
+
+                '<button class="btn btn-green" ' +
+
+                'onclick="marcarDuvidaLida(\'' +
+
+                escapeHTML(
+                  duvida.id
+                ) +
+
+                '\')">' +
+
+                '✓ Marcar como lida' +
+
+                '</button>';
+            }
+
+
+            if (professor) {
+
+              botoes +=
+
+                '<div style="margin-top:12px;width:100%">' +
+
+                '<textarea ' +
+
+                'id="resposta_' +
+                escapeHTML(
+                  duvida.id
+                ) +
+                '" ' +
+
+                'placeholder="Digite a resposta para o aluno...">' +
+
+                '</textarea>' +
+
+                '<button class="btn btn-primary" ' +
+
+                'onclick="responderDuvida(\'' +
+
+                escapeHTML(
+                  duvida.id
+                ) +
+
+                '\')">' +
+
+                '📨 Responder' +
+
+                '</button>' +
+
+                '</div>';
+            }
+
+
+            card.innerHTML =
+
+              '<h3>❓ ' +
+              escapeHTML(
+                duvida.assunto
+              ) +
+              '</h3>' +
+
+              '<p><strong>Aluno:</strong> ' +
+              escapeHTML(
+                duvida.aluno
+              ) +
+              '</p>' +
+
+              '<p><strong>Data:</strong> ' +
+              escapeHTML(
+                duvida.data
+              ) +
+              '</p>' +
+
+              statusHTML +
+
+              '<div class="duvida-mensagem">' +
+
+              '<strong>💬 Dúvida:</strong>' +
+
+              '<br><br>' +
+
+              escapeHTML(
+                duvida.mensagem
+              ) +
+
+              '</div>' +
+
+              respostaHTML +
+
+              '<div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">' +
+
+              botoes +
+
+              '</div>';
+
+
+            grid.appendChild(
+              card
+            );
+          }
+        );
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .listarDuvidas(
+      token,
+      filtroDuvidas
+    );
+}
+
+
+// ==========================================================
+// MARCAR DÚVIDA COMO LIDA
+// ==========================================================
+
+function marcarDuvidaLida(
+  id
+) {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function() {
+
+        carregarDuvidas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .marcarDuvidaLida(
+      token,
+      id
+    );
+}
+
+
+// ==========================================================
+// RESPONDER
+// ==========================================================
+
+function responderDuvida(
+  id
+) {
+
+  const campo =
+    el(
+      "resposta_" +
+      id
+    );
+
+
+  if (!campo) {
+
+    alert(
+      "Campo de resposta não encontrado."
+    );
+
+    return;
+  }
+
+
+  const resposta =
+    campo.value.trim();
+
+
+  if (!resposta) {
+
+    alert(
+      "Digite uma resposta."
+    );
+
+    campo.focus();
+
+    return;
+  }
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(resultado) {
+
+        alert(
+          resultado.mensagem
+        );
+
+        carregarDuvidas();
+      }
+    )
+
+    .withFailureHandler(
+      mostrarErro
+    )
+
+    .responderDuvida(
+      token,
+      id,
+      resposta
+    );
+}
+
+
+// ==========================================================
+// MOBILE
+// ==========================================================
+
+el("menuMobile").onclick =
+function() {
+
+  el("sidebar")
+    .classList
+    .toggle("open");
+};
+
+
+
+// ==========================================================
+// CALENDÁRIO
+// ==========================================================
+
+let calendarioEventos = [];
+let calendarioDataAtual = new Date();
+let calendarioLinhaEdicao = null;
+
+function nomeMesCalendario(mes) {
+  return ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"][mes];
+}
+
+function escaparCalendario(valor) {
+  return escapeHTML(String(valor || ""));
+}
+
+function carregarCalendario() {
+  if (usuario && usuario.tipo === "PROFESSOR") {
+    el("calSerie").value = usuario.serieAno || "";
+    if (!el("calMateria").value) el("calMateria").value = usuario.materia || "";
+  }
+
+  google.script.run
+    .withSuccessHandler(function(eventos) {
+      calendarioEventos = eventos || [];
+      renderizarCalendario();
+      renderizarListaCalendario();
+      renderizarEventosDashboard();
+    })
+    .withFailureHandler(mostrarErro)
+    .listarEventosCalendario(token);
+}
+
+function normalizarDataCalendarioFrontend(valor) {
+  if (!valor) return "";
+  const texto = String(valor).trim();
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(texto)) return texto;
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(texto)) {
+    const p = texto.split("/");
+    return p[2] + "-" + p[1] + "-" + p[0];
+  }
+
+  // Compatibilidade com datas que eventualmente venham do Sheets como texto de Date.
+  const convertido = new Date(texto);
+  if (!isNaN(convertido.getTime())) {
+    return convertido.getFullYear() + "-" +
+      String(convertido.getMonth() + 1).padStart(2, "0") + "-" +
+      String(convertido.getDate()).padStart(2, "0");
+  }
+
+  return texto;
+}
+
+function dataHojeCalendario() {
+  const hoje = new Date();
+  return hoje.getFullYear() + "-" +
+    String(hoje.getMonth() + 1).padStart(2, "0") + "-" +
+    String(hoje.getDate()).padStart(2, "0");
+}
+
+function formatarDataCalendario(dataStr) {
+  if (!dataStr) return "";
+  const partes = String(dataStr).split("-");
+  if (partes.length !== 3) return dataStr;
+  return partes[2] + "/" + partes[1] + "/" + partes[0];
+}
+
+function renderizarEventosDashboard() {
+  const lista = el("dashboardEventosLista");
+  const dataTexto = el("dashboardEventosData");
+  if (!lista || !dataTexto) return;
+
+  const hoje = dataHojeCalendario();
+  dataTexto.textContent = "Hoje: " + formatarDataCalendario(hoje);
+
+  // O calendário continua mostrando todos os eventos na página própria.
+  // No Dashboard, destacamos automaticamente apenas os eventos da data atual.
+  const eventosHoje = calendarioEventos.filter(function(e) {
+    return normalizarDataCalendarioFrontend(e.data) === hoje;
+  });
+
+  lista.innerHTML = "";
+
+  if (!eventosHoje.length) {
+    lista.innerHTML = '<div class="dashboard-empty">📭<br><br><strong>Nenhum evento para hoje.</strong><br>Os eventos agendados pelo professor continuarão disponíveis no Calendário.</div>';
+    return;
+  }
+
+  eventosHoje.forEach(function(e) {
+    const card = document.createElement("div");
+    card.className = "dashboard-event-card";
+    const icone = e.tipo === "AULA" ? "📚" : e.tipo === "PROVA" ? "📝" : "📂";
+    card.innerHTML =
+      '<span class="dashboard-event-badge">' + icone + ' ' + escaparCalendario(e.tipo) + '</span>' +
+      '<h3>' + escaparCalendario(e.titulo) + '</h3>' +
+      '<p><strong>Matéria:</strong> ' + escaparCalendario(e.materia) + '</p>' +
+      '<p><strong>Turma:</strong> ' + escaparCalendario(e.turma) + '</p>' +
+      '<p><strong>Professor:</strong> ' + escaparCalendario(e.professor) + '</p>' +
+      (e.descricao ? '<p><strong>Descrição:</strong> ' + escaparCalendario(e.descricao) + '</p>' : '');
+
+    card.onclick = function() {
+      mostrarEventoCalendario(e);
+    };
+    lista.appendChild(card);
+  });
+}
+
+function renderizarCalendario() {
+  const ano = calendarioDataAtual.getFullYear();
+  const mes = calendarioDataAtual.getMonth();
+  el("calMesTitulo").textContent = nomeMesCalendario(mes) + " " + ano;
+
+  const primeiroDia = new Date(ano, mes, 1).getDay();
+  const totalDias = new Date(ano, mes + 1, 0).getDate();
+  const diasAnterior = new Date(ano, mes, 0).getDate();
+  const grid = el("calGrid");
+  grid.innerHTML = "";
+
+  const hoje = new Date();
+  const hojeStr = hoje.getFullYear() + "-" +
+    String(hoje.getMonth()+1).padStart(2,"0") + "-" +
+    String(hoje.getDate()).padStart(2,"0");
+
+  for (let i=0; i<42; i++) {
+    const numero = i - primeiroDia + 1;
+    let dia, mesCelula=mes, anoCelula=ano, outro=false;
+
+    if (numero < 1) {
+      dia = diasAnterior + numero; mesCelula--;
+      if (mesCelula < 0) { mesCelula=11; anoCelula--; }
+      outro=true;
+    } else if (numero > totalDias) {
+      dia = numero-totalDias; mesCelula++;
+      if (mesCelula > 11) { mesCelula=0; anoCelula++; }
+      outro=true;
+    } else dia=numero;
+
+    const dataStr = anoCelula + "-" + String(mesCelula+1).padStart(2,"0") +
+      "-" + String(dia).padStart(2,"0");
+
+    const div=document.createElement("div");
+    div.className="calendar-day" + (outro ? " other-month" : "") +
+      (dataStr===hojeStr ? " today" : "");
+
+    let conteudo='<div class="calendar-number">'+dia+'</div>';
+    calendarioEventos.filter(e=>normalizarDataCalendarioFrontend(e.data)===dataStr).forEach(function(e) {
+      const classe=String(e.tipo).toLowerCase();
+      const icone=e.tipo==="AULA"?"📚":e.tipo==="PROVA"?"📝":"📂";
+      conteudo += '<button class="calendar-event '+classe+'" data-cal-linha="'+
+        escaparCalendario(e.linha)+'">'+icone+' '+escaparCalendario(e.titulo)+
+        '<small>'+escaparCalendario(e.materia)+' • Turma '+escaparCalendario(e.turma)+
+        '</small></button>';
+    });
+    div.innerHTML=conteudo;
+
+    // O aluno/professor pode clicar no dia inteiro para consultar os eventos.
+    div.onclick=function() {
+      const eventosDoDia=calendarioEventos.filter(function(e) {
+        return normalizarDataCalendarioFrontend(e.data)===dataStr;
+      });
+      mostrarEventosDoDia(dataStr, eventosDoDia);
+    };
+
+    grid.appendChild(div);
+  }
+
+  grid.querySelectorAll(".calendar-event").forEach(function(btn) {
+    btn.onclick=function(event) {
+      event.stopPropagation();
+      const evento=calendarioEventos.find(e=>Number(e.linha)===Number(this.dataset.calLinha));
+      if (evento) mostrarEventoCalendario(evento);
+    };
+  });
+}
+
+function mostrarEventosDoDia(dataStr, eventos) {
+  const partes=dataStr.split("-");
+  const dataFormatada=partes[2]+"/"+partes[1]+"/"+partes[0];
+
+  if (!eventos.length) {
+    alert("📅 " + dataFormatada + "\n\nNão há eventos agendados para este dia.");
+    return;
+  }
+
+  let texto="📅 Eventos de " + dataFormatada + "\n\n";
+
+  eventos.forEach(function(e, index) {
+    const icone=e.tipo==="AULA"?"📚":e.tipo==="PROVA"?"📝":"📂";
+    texto += (index+1) + ". " + icone + " " + e.titulo + "\n";
+    texto += "Tipo: " + e.tipo + "\n";
+    texto += "Matéria: " + e.materia + "\n";
+    texto += "Turma: " + e.turma + "\n";
+    texto += "Professor: " + e.professor + "\n";
+    if (e.descricao) texto += "Descrição: " + e.descricao + "\n";
+    texto += "\n";
+  });
+
+  alert(texto);
+}
+
+function renderizarListaCalendario() {
+  const lista=el("calLista");
+  lista.innerHTML="";
+  if (!calendarioEventos.length) {
+    lista.innerHTML='<div class="empty">📅<br><br>Nenhum evento encontrado.</div>';
+    return;
+  }
+
+  calendarioEventos.forEach(function(e) {
+    const card=document.createElement("div");
+    card.className="item";
+    const icone=e.tipo==="AULA"?"📚":e.tipo==="PROVA"?"📝":"📂";
+    let acoes="";
+    if (usuario.tipo==="PROFESSOR") {
+      acoes='<div class="calendar-edit-actions">'+
+        '<button class="btn btn-gray" onclick="editarCalendario('+Number(e.linha)+')">✏️ Editar</button>'+
+        '<button class="btn btn-red" onclick="excluirCalendario('+Number(e.linha)+')">🗑 Excluir</button>'+
+        '</div>';
+    }
+    card.innerHTML='<h3>'+icone+' '+escaparCalendario(e.titulo)+'</h3>'+
+      '<p><strong>Data:</strong> '+escaparCalendario(formatarDataCalendario(normalizarDataCalendarioFrontend(e.data)))+'</p>'+
+      '<p><strong>Tipo:</strong> '+escaparCalendario(e.tipo)+'</p>'+
+      '<p><strong>Matéria:</strong> '+escaparCalendario(e.materia)+'</p>'+
+      '<p><strong>Turma:</strong> '+escaparCalendario(e.turma)+'</p>'+
+      '<p><strong>Professor:</strong> '+escaparCalendario(e.professor)+'</p>'+
+      '<p><strong>Descrição:</strong> '+escaparCalendario(e.descricao||"-")+'</p>'+acoes;
+    lista.appendChild(card);
+  });
+}
+
+function mostrarEventoCalendario(e) {
+  const texto=e.titulo+"\n\nData: "+e.data+"\nTipo: "+e.tipo+
+    "\nMatéria: "+e.materia+"\nTurma: "+e.turma+
+    "\nProfessor: "+e.professor+"\n\n"+(e.descricao||"");
+  if (usuario.tipo==="PROFESSOR") {
+    if (confirm(texto+"\n\nDeseja editar este evento?")) editarCalendario(e.linha);
+  } else alert(texto);
+}
+
+function editarCalendario(linha) {
+  const e=calendarioEventos.find(x=>Number(x.linha)===Number(linha));
+  if (!e) return;
+  calendarioLinhaEdicao=Number(linha);
+  el("calTipo").value=e.tipo;
+  el("calData").value=normalizarDataCalendarioFrontend(e.data);
+  el("calTitulo").value=e.titulo;
+  el("calTurma").value=e.turma;
+  el("calMateria").value=e.materia;
+  el("calSerie").value=e.serieAno||usuario.serieAno||"";
+  el("calDescricao").value=e.descricao||"";
+  el("calSalvar").textContent="💾 Salvar alterações";
+  el("calCancelarEdicao").style.display="inline-block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function cancelarEdicaoCalendario() {
+  calendarioLinhaEdicao=null;
+  el("calTipo").value="AULA";
+  el("calData").value="";
+  el("calTitulo").value="";
+  el("calTurma").value="";
+  el("calMateria").value=usuario&&usuario.tipo==="PROFESSOR"?(usuario.materia||""):"";
+  el("calSerie").value=usuario&&usuario.serieAno?usuario.serieAno:"";
+  el("calDescricao").value="";
+  el("calSalvar").textContent="💾 Agendar";
+  el("calCancelarEdicao").style.display="none";
+}
+
+el("calSalvar").onclick=function() {
+  const dados={
+    linha:calendarioLinhaEdicao,
+    data:el("calData").value,
+    tipo:el("calTipo").value,
+    titulo:el("calTitulo").value.trim(),
+    turma:el("calTurma").value.trim(),
+    materia:el("calMateria").value.trim(),
+    descricao:el("calDescricao").value.trim()
+  };
+
+  if(!dados.data){alert("Informe a data.");return;}
+  if(!dados.titulo){alert("Informe o título.");return;}
+  if(!dados.turma){alert("Informe a turma.");return;}
+  if(!dados.materia){alert("Informe a matéria.");return;}
+
+  const chamada=calendarioLinhaEdicao ? "editarEventoCalendario" : "cadastrarEventoCalendario";
+  let runner=google.script.run.withSuccessHandler(function(r){
+    alert(r.mensagem); cancelarEdicaoCalendario(); carregarCalendario();
+  }).withFailureHandler(mostrarErro);
+
+  if(calendarioLinhaEdicao) runner.editarEventoCalendario(token,dados);
+  else runner.cadastrarEventoCalendario(token,dados);
+};
+
+el("dashboardCalendarioBtn").onclick = function() {
+  const navCalendario = document.querySelector('.nav[data-screen="calendario"]');
+  if (navCalendario) navCalendario.click();
+};
+
+el("calCancelarEdicao").onclick=cancelarEdicaoCalendario;
+el("calAtualizar").onclick=carregarCalendario;
+el("calAnterior").onclick=function(){calendarioDataAtual.setMonth(calendarioDataAtual.getMonth()-1);renderizarCalendario();};
+el("calProximo").onclick=function(){calendarioDataAtual.setMonth(calendarioDataAtual.getMonth()+1);renderizarCalendario();};
+el("calHoje").onclick=function(){calendarioDataAtual=new Date();renderizarCalendario();};
+
+function excluirCalendario(linha) {
+  if(!confirm("Excluir este evento do calendário?")) return;
+  google.script.run.withSuccessHandler(function(r){
+    alert(r.mensagem); carregarCalendario();
+  }).withFailureHandler(mostrarErro).excluirEventoCalendario(token,Number(linha));
+}
+
+// ==========================================================
+// LOGOUT
+// ==========================================================
+
+el("logoutBtn").onclick =
+function() {
+
+  if (
+    !confirm(
+      "Deseja realmente sair?"
+    )
+  )
+    return;
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function() {
+
+        localStorage
+          .removeItem(
+            "GE_TOKEN"
+          );
+
+        location.reload();
+      }
+    )
+
+    .withFailureHandler(
+      function() {
+
+        localStorage
+          .removeItem(
+            "GE_TOKEN"
+          );
+
+        location.reload();
+      }
+    )
+
+    .logout(token);
+};
+
+
+// ==========================================================
+// ERRO
+// ==========================================================
+
+function mostrarErro(
+  error
+) {
+
+  alert(
+    "❌ " +
+    (
+      error &&
+      error.message
+        ? error.message
+        : String(error)
+    )
+  );
+}
+
+
+// ==========================================================
+// SESSÃO SALVA
+// ==========================================================
+
+window.addEventListener(
+  "load",
+  function() {
+
+    const salvo =
+      localStorage.getItem(
+        "GE_TOKEN"
+      );
+
+
+    if (!salvo)
+      return;
+
+
+    google.script.run
+
+      .withSuccessHandler(
+        function(usuarioRetornado) {
+
+          token =
+            salvo;
+
+          usuario =
+            usuarioRetornado;
+
+          abrirApp();
+        }
+      )
+
+      .withFailureHandler(
+        function() {
+
+          localStorage
+            .removeItem(
+              "GE_TOKEN"
+            );
+        }
+      )
+
+      .obterUsuarioLogado(
+        salvo
+      );
+  }
+);
+
+</script>
+
+</body>
+
+</html>
